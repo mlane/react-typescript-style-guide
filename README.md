@@ -8,6 +8,12 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Folder Structure](#-folder-structure)
 - [Component Structure](#-component-structure)
 - [Functions & Utilities](#-functions--utilities)
+- [GraphQL Queries](#-graphql-queries)
+- [Feature Flags](#-feature-flags)
+- [Types & Interfaces](#-types--interfaces)
+- [Comments & Documentation](#-comments--documentation)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
@@ -88,11 +94,11 @@ A **structured, feature-based folder organization** ensures **scalability, maint
   - This allows **cleaner imports** and prevents deep import paths.
   - **Example:**
     ```tsx
-    import { ProfileHero } from '@/pages/profile/common'
+    import { ProfileHero } from 'src/pages/profile/common'
     ```
     Instead of:
     ```tsx
-    import { ProfileHero } from '@/pages/profile/common/ProfileHero/ProfileHero'
+    import { ProfileHero } from 'src/pages/profile/common/ProfileHero/ProfileHero'
     ```
   - Recommended for:
     - Feature directories (`pages/profile/index.ts`)

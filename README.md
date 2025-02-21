@@ -7,6 +7,7 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Philosophy](#-philosophy)
 - [Folder Structure](#-folder-structure)
 - [Component Structure](#-component-structure)
+- [Functions & Utilities](#-functions--utilities)
 
 ---
 
@@ -357,5 +358,79 @@ common / components / Button.tsx
 ✅ **Encourages clean, readable JSX formatting.**  
 ✅ **Prevents unnecessarily large components.**  
 ✅ **Standardizes naming and file placement across the codebase.**
+
+---
+
+## ⚡ Functions & Utilities
+
+This section defines **where and how utility functions should be structured** to ensure **readability and maintainability**.
+
+---
+
+### 🔹 Utility Function Placement
+
+- **Feature-specific utilities** should be inside a feature’s folder.
+- **Shared utilities across multiple features** should be moved to `constants/featureUtils.ts`.
+
+✅ **Example: Utility Function Placement**
+
+```
+pages/profile/profileUtils.ts  # Feature-specific utilities
+constants/userUtils.ts         # Shared utilities across features
+```
+
+✅ **Example: Exporting Multiple Utilities**
+
+```ts
+const getProfileAvatar = () => {}
+
+const getProfileName = () => {}
+
+export { getProfileAvatar, getProfileName }
+```
+
+---
+
+### 🔹 Formatting Rules for Functions
+
+- **Avoid unnecessary function nesting** → Functions should be **flat and readable**, avoiding deeply nested logic.
+
+❌ **Bad Example (Unnecessary Nesting)**
+
+```ts
+const getUserDetails = user => {
+  if (user) {
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    }
+  } else {
+    return null
+  }
+}
+```
+
+✅ **Good Example (Flat and Readable)**
+
+```ts
+const getUserDetails = user => {
+  if (!user) return null
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+  }
+}
+```
+
+---
+
+## 🔹 Why This Works
+
+✅ **Keeps the focus on utility function placement & formatting.**  
+✅ **Removes redundancy with Component Structure.**  
+✅ **Ensures consistent utility function placement across the project.**
 
 ---

@@ -6,6 +6,7 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 
 - [Philosophy](#-philosophy)
 - [Folder Structure](#-folder-structure)
+- [Component Structure](#-component-structure)
 
 ---
 
@@ -148,3 +149,213 @@ app/
 ✅ **Encapsulation** → Keeps related files **together**, reducing unnecessary dependencies.  
 ✅ **Readability** → Developers can quickly find what they need **without deep nesting**.  
 ✅ **Predictability** → Standardized naming and placement **eliminate confusion**.
+
+---
+
+## 🎭 Component Structure
+
+A well-structured React component improves **readability, maintainability, and consistency**. This section defines **how components should be structured**, including **ordering hooks, variables, functions, and the return statement**.
+
+### 🔹 General Rules for Components
+
+- **Always use functional components (`const MyComponent = () => {}`)**.
+- **Component file names should match the folder name** if applicable.
+  - **Example:** `ProfileHero.tsx` inside `ProfileHero/` should match the folder name.
+- **Each component should be self-contained** and only handle **one responsibility**.
+- **Avoid deep nesting of JSX**—break into smaller components when necessary.
+- **Keep components under ~150 lines** for readability.
+- **Early return for loading/error states** to reduce indentation.
+- **Hooks, variables, and functions should follow a consistent order**.
+
+---
+
+### 🔹 Component Order
+
+Components should follow this order:
+
+1️⃣ **Hooks** (`useState`, `useEffect`, etc.).  
+2️⃣ **Variables that are not functions** (local variables, constants, etc.).  
+3️⃣ **`useEffect` hooks** (side effects).  
+4️⃣ **Functions (event handlers, derived functions, etc.).**  
+5️⃣ **Return statement (JSX).**
+
+---
+
+### ✅ **Example: Standard Component Structure**
+
+```tsx
+export const Profile = () => {
+  const navigate = useNavigate()
+  const { accountHandle } = useParams()
+  const { hasError, isLoading, profileData } = useGetProfileQuery(accountHandle)
+  const [searchParams] = useSearchParams()
+  const { id, image } = profileData ?? {}
+
+  useEffect(() => {
+    // Example: Track analytics
+  }, [])
+
+  const getProfileAvatar = () => {}
+
+  const getProfileName = () => {}
+
+  if (isLoading || isEmpty(profileData)) return <ProfileLoading />
+
+  if (hasError) return <ProfileEmpty />
+
+  return (
+    <section>
+      <ProfileHero />
+      <div>
+        <ProfileSidebar />
+        <ProfileContent />
+      </div>
+    </section>
+  )
+}
+```
+
+---
+
+### 🔹 JSX Formatting Rules
+
+- **One-line return when there is no logic.**
+
+```tsx
+export const Profile = () => <section>...</section>
+```
+
+- **Use multiple lines for JSX if it improves readability.**
+
+```tsx
+export const Profile = () => (
+  <section>
+    <ProfileHero />
+    <ProfileSidebar />
+  </section>
+)
+```
+
+---
+
+### 🔹 Function & Hook Spacing Rules
+
+- **No extra space between hooks and variables.**
+
+```tsx
+const navigate = useNavigate()
+const { accountHandle } = useParams()
+const { hasError, isLoading, profileData } = useGetProfileQuery(accountHandle)
+const [searchParams] = useSearchParams()
+const { id, image } = profileData ?? {}
+```
+
+- **Add a space between function declarations for readability.**
+
+```tsx
+const getProfileAvatar = () => {}
+
+const getProfileName = () => {}
+```
+
+- **Space out `useEffect` from other hooks.**
+
+```tsx
+const navigate = useNavigate()
+const { accountHandle } = useParams()
+
+useEffect(() => {
+  // Example: Sync data on mount
+}, [])
+```
+
+---
+
+### 🔹 Component Naming Conventions
+
+- **Use `PascalCase` for component names.**
+
+```tsx
+export const ProfileHero = () => <div>Profile Hero</div>
+```
+
+- **Use `camelCase` for non-component functions.**
+
+```tsx
+const getProfileName = () => {}
+```
+
+---
+
+### 🔹 Loading & Empty State Components
+
+- **Loading states should mirror the component structure** but with skeleton placeholders.
+- **A `ProfileLoading.tsx` should match `Profile.tsx`** and replace dynamic content with skeletons.
+
+```tsx
+export const Profile = () => (
+  <section className='bg-red'>
+    <ProfileHero />
+    <div>
+      <ProfileSidebar />
+      <ProfileContent />
+      <Button>Click me</Button>
+    </div>
+  </section>
+)
+```
+
+```tsx
+export const ProfileLoading = () => (
+  <section className='bg-red'>
+    <ProfileHeroLoading height={200} />
+    <div>
+      <ProfileSidebarLoading />
+      <ProfileContentLoading />
+      <div className='h-12 w-20'>
+        <Skeleton variant='rounded' />
+      </div>
+    </div>
+  </section>
+)
+```
+
+---
+
+### 🔹 When to Split Components?
+
+A component should be **split into smaller components if:**  
+✅ It exceeds **150 lines**.  
+✅ It **handles multiple responsibilities** (e.g., UI and state logic).  
+✅ It **contains deeply nested JSX**.  
+✅ It **repeats similar JSX structures** that could be reused.
+
+---
+
+### 🔹 When to Use a `common/` Component?
+
+- **If a component is reused across multiple features**, move it to `common/components/`.
+- **If a component is only used within one feature, keep it inside that feature's folder.**
+
+✅ **Example (Feature-Specific Component)**
+
+```
+pages / profile / common / ProfileHero.tsx
+```
+
+✅ **Example (Shared Component)**
+
+```
+common / components / Button.tsx
+```
+
+---
+
+## 🔹 Why This Works
+
+✅ **Keeps component logic predictable and structured.**  
+✅ **Encourages clean, readable JSX formatting.**  
+✅ **Prevents unnecessarily large components.**  
+✅ **Standardizes naming and file placement across the codebase.**
+
+---

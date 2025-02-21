@@ -8,12 +8,6 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Folder Structure](#-folder-structure)
 - [Component Structure](#-component-structure)
 - [Functions & Utilities](#-functions--utilities)
-- [GraphQL Queries](#-graphql-queries)
-- [Feature Flags](#-feature-flags)
-- [Types & Interfaces](#-types--interfaces)
-- [Comments & Documentation](#-comments--documentation)
-- [Contributing](#-contributing)
-- [License](#-license)
 
 ---
 

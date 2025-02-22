@@ -8,6 +8,12 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Folder Structure](#-folder-structure)
 - [Component Structure](#-component-structure)
 - [Functions & Utilities](#-functions--utilities)
+- [GraphQL Queries](#-graphql-queries)
+- [Feature Flags](#-feature-flags)
+- [Types & Interfaces](#-types--interfaces)
+- [Comments & Documentation](#-comments--documentation)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
@@ -144,12 +150,12 @@ app/
 
 ---
 
-### 🔹 Why This Works
+#### 🔹 Why This Works
 
-✅ **Scalability** → Features remain **self-contained**, making it easy to expand the app.  
-✅ **Encapsulation** → Keeps related files **together**, reducing unnecessary dependencies.  
-✅ **Readability** → Developers can quickly find what they need **without deep nesting**.  
-✅ **Predictability** → Standardized naming and placement **eliminate confusion**.
+- ✅ **Scalability** → Features remain **self-contained**, making it easy to expand the app.
+- ✅ **Encapsulation** → Keeps related files **together**, reducing unnecessary dependencies.
+- ✅ **Readability** → Developers can quickly find what they need **without deep nesting**.
+- ✅ **Predictability** → Standardized naming and placement **eliminate confusion**.
 
 ---
 
@@ -174,11 +180,11 @@ A well-structured React component improves **readability, maintainability, and c
 
 Components should follow this order:
 
-1️⃣ **Hooks** (`useState`, `useEffect`, etc.).  
-2️⃣ **Variables that are not functions** (local variables, constants, etc.).  
-3️⃣ **`useEffect` hooks** (side effects).  
-4️⃣ **Functions (event handlers, derived functions, etc.).**  
-5️⃣ **Return statement (JSX).**
+- 1️⃣ **Hooks** (`useState`, `useEffect`, etc.).
+- 2️⃣ **Variables that are not functions** (local variables, constants, etc.).
+- 3️⃣ **`useEffect` hooks** (side effects).
+- 4️⃣ **Functions (event handlers, derived functions, etc.).**
+- 5️⃣ **Return statement (JSX).**
 
 ---
 
@@ -325,11 +331,12 @@ export const ProfileLoading = () => (
 
 ### 🔹 When to Split Components?
 
-A component should be **split into smaller components if:**  
-✅ It exceeds **150 lines**.  
-✅ It **handles multiple responsibilities** (e.g., UI and state logic).  
-✅ It **contains deeply nested JSX**.  
-✅ It **repeats similar JSX structures** that could be reused.
+A component should be **split into smaller components if:**
+
+- ✅ It exceeds **150 lines**.
+- ✅ It **handles multiple responsibilities** (e.g., UI and state logic).
+- ✅ It **contains deeply nested JSX**.
+- ✅ It **repeats similar JSX structures** that could be reused.
 
 ---
 
@@ -352,12 +359,12 @@ common / components / Button.tsx
 
 ---
 
-## 🔹 Why This Works
+#### 🔹 Why This Works
 
-✅ **Keeps component logic predictable and structured.**  
-✅ **Encourages clean, readable JSX formatting.**  
-✅ **Prevents unnecessarily large components.**  
-✅ **Standardizes naming and file placement across the codebase.**
+- ✅ **Keeps component logic predictable and structured.**
+- ✅ **Encourages clean, readable JSX formatting.**
+- ✅ **Prevents unnecessarily large components.**
+- ✅ **Standardizes naming and file placement across the codebase.**
 
 ---
 
@@ -427,10 +434,225 @@ const getUserDetails = user => {
 
 ---
 
-## 🔹 Why This Works
+#### 🔹 Why This Works
 
-✅ **Keeps the focus on utility function placement & formatting.**  
-✅ **Removes redundancy with Component Structure.**  
-✅ **Ensures consistent utility function placement across the project.**
+- ✅ **Keeps the focus on utility function placement & formatting.**
+- ✅ **Removes redundancy with Component Structure.**
+- ✅ **Ensures consistent utility function placement across the project.**
 
 ---
+
+## 📡 GraphQL Queries
+
+A structured approach to handling GraphQL queries and mutations ensures readability, maintainability, and consistency across the application.
+
+### 🔹 General Rules for GraphQL Queries & Mutations
+
+- **Queries & Mutations should be placed within their respective feature folder**
+
+✅ Example:
+
+```
+src/pages/profile/useGetProfileQuery.ts      # Feature-specific query
+src/pages/profile/useCreateProfileMutation.ts  # Feature-specific mutation
+src/hooks/useGetPredefinedGuideTagsQuery.ts         # Sitewide query (used across features)
+```
+
+- **Use camelCase for variables** inside GraphQL operations to maintain consistency with JavaScript/TypeScript naming conventions.
+- **Operation name should be based on the data being fetched/updated, ensuring consistency with file & function names.**
+
+✅ Example:
+
+```ts
+query GetProfileQueryInProfile($id: ID!) { ... }
+```
+
+- **Sort fields alphabetically**, except for `id`, which should always be listed first as the primary identifier for consistency and quick reference.
+- **GraphQL fields should match the query name** for clarity.
+- **For sitewide queries**, the operation name should remain generic and should not include `In{featureName}`.
+
+---
+
+### 🔹 Feature-Based Queries vs. Sitewide Queries
+
+To differentiate feature-specific GraphQL queries/mutations from global queries, we use a structured naming convention:
+
+#### Feature-Based Queries & Mutations
+
+- **Feature-specific queries & mutations** should include `In{featureName}` in the operation name to differentiate them from sitewide queries and avoid naming conflicts.
+- **File Placement:** Should be placed within the feature folder inside `pages/featureName/`.
+
+✅ Example:
+
+```
+src/pages/profile/useGetProfileQuery.ts   # Query used only in Profile
+src/pages/profile/useUpdateProfileMutation.ts   # Mutation used only in Profile
+```
+
+✅ Query Example:
+
+```ts
+query GetProfileQueryInProfile($id: ID!) {
+  node(id: $id) {
+    ... on Profile {
+      id
+      accountHandle
+      displayName
+      image
+    }
+  }
+}
+```
+
+#### Sitewide Queries & Mutations
+
+- Queries that **are used across multiple features** should **not include the feature name** in their operation.
+- **File Placement:** These should be placed in `src/hooks/`.
+
+✅ Example:
+
+```
+src/hooks/useGetPredefinedGuideTagsQuery.ts   # Sitewide query
+```
+
+✅ Query Example:
+
+```ts
+query GetPredefinedGuideTags {
+  predefinedGuideTags {
+    id
+    name
+  }
+}
+```
+
+---
+
+#### 🔹 Why This Naming Works
+
+- **Feature-Based Queries Include Feature Name**
+  - Queries scoped to a feature include `In{featureName}` (e.g., `GetProfileQueryInProfile`) to **prevent name collisions**.
+  - This ensures clarity when multiple queries exist under the same feature.
+- **Sitewide Queries Should Remain Generic**
+  - If a query is used across multiple features, it should not include the feature name.
+  - This prevents unnecessary feature-specific naming for shared resources.
+- **Why We Avoid “QueryQuery”**
+  - If a query is called `GetPredefinedGuideTagsQuery`, the auto-generated type would be `GetPredefinedGuideTagsQueryQuery`, which is **redundant**.
+  - By naming the file useGetPredefinedGuideTagsQuery.ts and using the operation name GetPredefinedGuideTags, we **avoid the unnecessary duplication**.
+
+📌 Key Takeaways:
+
+- **If a query/mutation belongs to a single feature**, its operation should include the feature name (e.g., `GetProfileQueryInProfile`, `UpdateProfileMutationInProfile`).
+- **If a query/mutation is used across multiple features**, its operation name should not include the feature name (e.g., `GetPredefinedGuideTags`, `UpdateUserSettingsMutation`).
+- **Feature-based queries & mutations should be placed inside `pages/featureName/`.**
+- **Sitewide queries & mutations should be placed in `src/hooks/`.**
+- **Mutations should always include ‘Mutation’ in both the GraphQL operation name and the filename (e.g., `useUpdateProfileMutation.ts`). Feature-based mutations follow the same `In{featureName}` rule as queries unless they are sitewide.**
+  ✅ Example: `useUpdateProfileMutation.ts`
+- **Feature mutations follow the same naming rule as feature queries, including `In{featureName}` unless they are sitewide.**
+- **We avoid “QueryQuery” in auto-generated types by keeping the operation name clean.**
+- **We use PascalCase for hook return types, following `Use{QueryName}Result` (e.g., `UseGetProfileQueryResult`).**
+
+---
+
+### 🔹 Example: Query for Fetching Profile Data
+
+```ts
+import { gql, useQuery } from '@apollo/client'
+
+type UseGetProfileQueryResult = {
+  hasError: ApolloError
+  isLoading: boolean
+  profileData: GetProfileQueryInProfileQuery['node']
+}
+
+const profileQuery = gql(`
+  query GetProfileQueryInProfile($id: ID!) {
+    node (id: $id) {
+      ... on Profile {
+        id
+        accountHandle
+        displayName
+        image
+      }
+    }
+  }
+`)
+
+export const useGetProfileQuery = (id: string): UseGetProfileQueryResult => {
+  const {
+    data,
+    error: hasError,
+    loading: isLoading,
+  } = useQuery(profileQuery, {
+    variables: {
+      id,
+    },
+  })
+
+  return {
+    hasError,
+    isLoading,
+    profileData: data?.node,
+  }
+}
+```
+
+#### 🔹 Why This Works
+
+- ✅ **CamelCase is used for variables** (accountHandle, displayName, etc.).
+- ✅ **id is prominently placed at the top** for consistency.
+- ✅ **Query follows a predictable naming structure** (GetProfileQueryInProfile).
+- ✅ **Custom hook abstracts error and loading states** for better readability (hasError, isLoading).
+
+---
+
+### 🔹 Example: Mutation for Updating Profile
+
+```ts
+import { gql, useMutation } from '@apollo/client'
+
+const updateProfileMutation = gql(`
+  mutation UpdateProfileMutationInProfile($updateProfileInput: UpdateProfileInput!) {
+    updateProfile(updateProfileInput: $updateProfileInput) {
+      id
+      displayName
+    }
+  }
+`)
+
+export const useUpdateProfileMutation = () => useMutation(updateProfileMutation)
+```
+
+```tsx
+export const ProfileForm = () => {
+  const [updateProfile, updateProfileResult] = useUpdateProfileMutation()
+
+  const onSubmit = async (id: string, displayName: string) => {
+    try {
+      await updateProfile({
+        variables: {
+          updateProfileInput: {
+            displayName,
+            id,
+          },
+        },
+      })
+    } catch (error) {
+      console.error('Failed to update profile', error)
+    }
+  }
+
+  return (
+    <form onSubmit={onSubmit}>
+      <button type='submit'>Update Profile</button>
+    </form>
+  )
+}
+```
+
+#### 🔹 Why This Works
+
+- ✅ **Mutation follows the naming pattern** (UpdateProfileMutationInProfile).
+- ✅ **onSubmit replaces handleUpdateProfile for clarity**.
+- ✅ **Refetching the profile query ensures UI consistency**.
+- ✅ **Error and loading states are aliased as hasError and isLoading** for better readability.

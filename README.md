@@ -10,6 +10,7 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Functions & Utilities](#-functions--utilities)
 - [GraphQL Queries](#-graphql-queries)
 - [Feature Flags](#-feature-flags)
+- [Types & Interfaces](#-types--interfaces)
 
 ---
 
@@ -558,7 +559,12 @@ import { gql, useQuery } from '@apollo/client'
 type UseGetProfileQueryResult = {
   hasError: ApolloError
   isLoading: boolean
-  profileData: GetProfileQueryInProfileQuery['node']
+  profileData: Extract<
+    GetProfileQueryInProfileQuery['node'],
+    {
+      __typename?: 'Profile'
+    }
+  >
 }
 
 const profileQuery = gql(`
@@ -813,9 +819,190 @@ export const PageRoutes = () => {
 
 ---
 
-✅ Summary
+### ✅ Summary
 
 - **Feature flags are stored in `src/config/feature-flags/featureFlags.ts`.**
 - **The `useFlag` hook checks feature flag values, including local storage overrides.**
 - **Flags can be used for component toggles (`ProfileHeroV2`) or route-based toggles (`ProfileV2`).**
 - **Short-lived flags should be cleaned up after rollout is complete.**
+
+---
+
+## 🔠 Types & Interfaces
+
+A **consistent approach** to defining types and interfaces ensures **clarity, maintainability, and flexibility** across the codebase.
+
+---
+
+### 🔹 General Rules
+
+- **Use `interface` for functional components.**
+
+  - Interfaces provide better readability when defining **props** for components.
+  - Ensures a **clear contract** for component usage.
+  - Supports **extending** when needed.
+
+- **Use `type` for everything else.**
+
+  - `type` provides better flexibility, particularly when defining **utility types, hooks, function return values, and GraphQL queries**.
+  - Use `Extract<>` when working with **GraphQL queries that return multiple types**, ensuring type safety while extracting a **specific expected type** from a union.
+
+- **Use `Pick<>` and `Omit<>` to create subsets of types.**
+
+  - `Pick<>` is used when selecting **only specific properties** from a type.
+  - `Omit<>` is used when removing **specific properties** from a type.
+
+---
+
+### 🔹 Component Props: Use `interface`
+
+✅ **Example: Functional Component Props**
+
+```tsx
+interface ProfileHeroProps {
+  title: string
+  onClick: () => void
+}
+
+export const ProfileHero = ({ title, onClick }: ProfileHeroProps) => (
+  <div onClick={onClick}>{title}</div>
+)
+```
+
+✅ Example: Extending an Interface
+
+Use `interface` to extend props cleanly, while type uses `&` for merging multiple types.
+
+```tsx
+import { Button } from '@travelpass/design-system'
+import type { GenericAddress } from 'src/__generated__/graphql'
+
+interface ProfileAddressProps extends GenericAddress {
+  onClick: VoidFunction
+}
+
+export const ProfileAddress = ({
+  addressLine1,
+  city,
+  country,
+  onClick,
+}: ProfileAddressProps) => (
+  <section>
+    <h2>{name}</h2>
+    <p>{getAddress(addressLine1, city, country)}</p>
+    <Button onClick={onClick}>Edit</Button>
+  </section>
+)
+```
+
+---
+
+### 🔹 Utility Types: Use `type`
+
+Use `Pick<>` when selecting only specific properties from a type, and `Omit<>` when removing specific properties.
+
+These help create lightweight, flexible types for better reusability.
+
+✅ Example: Utility Type for Query Results
+
+```ts
+type UseGetProfileQueryResult = {
+  hasError: ApolloError
+  isLoading: boolean
+  profileData: Extract<
+    GetProfileQueryInProfileQuery['node'],
+    {
+      __typename?: 'Profile'
+    }
+  >
+}
+```
+
+✅ Example: Extracting Only Specific Keys from an Object
+
+```ts
+type UserKeys = 'id' | 'email'
+
+type UserInfo = Pick<User, UserKeys>
+```
+
+✅ Example: Omitting Unnecessary Fields from an Object
+
+```ts
+type User = {
+  id: string
+  email: string
+  password: string
+}
+
+type PublicUser = Omit<User, 'password'>
+```
+
+✅ Example: Combining Multiple Types
+
+Use `&` to merge multiple types, providing more flexibility than `interface` extension.
+
+```ts
+type Base = {
+  createdAt: string
+}
+
+type Profile = {
+  id: string
+  name: string
+}
+
+type ProfileWithBase = Profile & Base
+```
+
+---
+
+### 🔹 When to Use `Extract<>` in GraphQL
+
+- Use `Extract<>` to ensure type safety when selecting a specific type from a GraphQL query result.
+
+✅ Example: Extracting the Profile Type from a Query
+
+```ts
+type UseGetProfileQueryResult = {
+  hasError: ApolloError
+  isLoading: boolean
+  profileData: Extract<
+    GetProfileQueryInProfileQuery['node'],
+    { __typename?: 'Profile' }
+  >
+}
+```
+
+---
+
+### 🔹 Avoid Unnecessary interface Usage
+
+❌ Bad Example: Using interface for Utility Types
+
+```ts
+interface UseGetProfileQueryResult {
+  hasError: ApolloError
+  isLoading: boolean
+  profileData: Profile | null
+}
+```
+
+✅ Good Example: Using type for Flexibility
+
+```ts
+type UseGetProfileQueryResult = {
+  hasError: ApolloError
+  isLoading: boolean
+  profileData: Profile | null
+}
+```
+
+---
+
+### ✅ Summary
+
+- **Use interface for defining props in functional components.**
+- **Use type for everything else (utilities, hooks, GraphQL queries, API responses).**
+- **Use `Extract<>` to ensure type safety when narrowing GraphQL query results.**
+- **Keep types minimal and readable—avoid unnecessary abstractions.**

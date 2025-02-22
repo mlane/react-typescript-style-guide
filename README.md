@@ -310,7 +310,7 @@ export const Profile = () => (
 ```tsx
 export const ProfileLoading = () => (
   <section className='bg-red'>
-    <ProfileHeroLoading height={200} />
+    <ProfileHeroLoading />
     <div>
       <ProfileSidebarLoading />
       <ProfileContentLoading />
@@ -343,13 +343,13 @@ A component should be **split into smaller components if:**
 ✅ **Example (Feature-Specific Component)**
 
 ```
-pages / profile / common / ProfileHero.tsx
+pages/profile/common/ProfileHero.tsx
 ```
 
 ✅ **Example (Shared Component)**
 
 ```
-common / components / Button.tsx
+common/components/ImageWithFallback.tsx
 ```
 
 ---
@@ -377,8 +377,8 @@ This section defines **where and how utility functions should be structured** to
 ✅ **Example: Utility Function Placement**
 
 ```
-pages/profile/profileUtils.ts  # Feature-specific utilities
-constants/userUtils.ts         # Shared utilities across features
+pages/profile/profileUtils.ts # Feature-specific utilities
+constants/userUtils.ts # Shared utilities across features
 ```
 
 ✅ **Example: Exporting Multiple Utilities**
@@ -480,8 +480,8 @@ To differentiate feature-specific GraphQL queries/mutations from global queries,
 ✅ Example:
 
 ```
-src/pages/profile/useGetProfileQuery.ts   # Query used only in Profile
-src/pages/profile/useUpdateProfileMutation.ts   # Mutation used only in Profile
+src/pages/profile/useGetProfileQuery.ts # Query used only in Profile
+src/pages/profile/useUpdateProfileMutation.ts # Mutation used only in Profile
 ```
 
 ✅ Query Example:

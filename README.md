@@ -9,11 +9,6 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Component Structure](#-component-structure)
 - [Functions & Utilities](#-functions--utilities)
 - [GraphQL Queries](#-graphql-queries)
-- [Feature Flags](#-feature-flags)
-- [Types & Interfaces](#-types--interfaces)
-- [Comments & Documentation](#-comments--documentation)
-- [Contributing](#-contributing)
-- [License](#-license)
 
 ---
 
@@ -453,9 +448,9 @@ A structured approach to handling GraphQL queries and mutations ensures readabil
 ✅ Example:
 
 ```
-src/pages/profile/useGetProfileQuery.ts      # Feature-specific query
-src/pages/profile/useCreateProfileMutation.ts  # Feature-specific mutation
-src/hooks/useGetPredefinedGuideTagsQuery.ts         # Sitewide query (used across features)
+src/pages/profile/useGetProfileQuery.ts # Feature-specific query
+src/pages/profile/useCreateProfileMutation.ts # Feature-specific mutation
+src/hooks/useGetPredefinedGuideTagsQuery.ts # Sitewide query (used across features)
 ```
 
 - **Use camelCase for variables** inside GraphQL operations to maintain consistency with JavaScript/TypeScript naming conventions.
@@ -512,7 +507,7 @@ query GetProfileQueryInProfile($id: ID!) {
 ✅ Example:
 
 ```
-src/hooks/useGetPredefinedGuideTagsQuery.ts   # Sitewide query
+src/hooks/useGetPredefinedGuideTagsQuery.ts # Sitewide query
 ```
 
 ✅ Query Example:
@@ -547,7 +542,7 @@ query GetPredefinedGuideTags {
 - **Feature-based queries & mutations should be placed inside `pages/featureName/`.**
 - **Sitewide queries & mutations should be placed in `src/hooks/`.**
 - **Mutations should always include ‘Mutation’ in both the GraphQL operation name and the filename (e.g., `useUpdateProfileMutation.ts`). Feature-based mutations follow the same `In{featureName}` rule as queries unless they are sitewide.**
-  ✅ Example: `useUpdateProfileMutation.ts`
+  - ✅ Example: `useUpdateProfileMutation.ts`
 - **Feature mutations follow the same naming rule as feature queries, including `In{featureName}` unless they are sitewide.**
 - **We avoid “QueryQuery” in auto-generated types by keeping the operation name clean.**
 - **We use PascalCase for hook return types, following `Use{QueryName}Result` (e.g., `UseGetProfileQueryResult`).**
@@ -601,8 +596,8 @@ export const useGetProfileQuery = (id: string): UseGetProfileQueryResult => {
 
 - ✅ **CamelCase is used for variables** (accountHandle, displayName, etc.).
 - ✅ **id is prominently placed at the top** for consistency.
-- ✅ **Query follows a predictable naming structure** (GetProfileQueryInProfile).
-- ✅ **Custom hook abstracts error and loading states** for better readability (hasError, isLoading).
+- ✅ **Query follows a predictable naming structure** (`GetProfileQueryInProfile`).
+- ✅ **Custom hook abstracts error and loading states** for better readability (`hasError`, `isLoading`).
 
 ---
 

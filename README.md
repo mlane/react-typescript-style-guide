@@ -655,7 +655,7 @@ export const ProfileForm = () => {
 
 ---
 
-## 🎚️ Feature Flags
+## 🚩 Feature Flags
 
 Feature flags enable us to **conditionally enable or disable features** without deploying new code. This approach allows for **progressive rollouts**, **A/B testing**, and **safe feature releases**.
 

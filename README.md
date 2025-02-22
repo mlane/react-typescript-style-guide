@@ -9,6 +9,7 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Component Structure](#-component-structure)
 - [Functions & Utilities](#-functions--utilities)
 - [GraphQL Queries](#-graphql-queries)
+- [Feature Flags](#-feature-flags)
 
 ---
 
@@ -651,3 +652,170 @@ export const ProfileForm = () => {
 - ✅ **onSubmit replaces handleUpdateProfile for clarity**.
 - ✅ **Refetching the profile query ensures UI consistency**.
 - ✅ **Error and loading states are aliased as hasError and isLoading** for better readability.
+
+---
+
+## 🎚️ Feature Flags
+
+Feature flags enable us to **conditionally enable or disable features** without deploying new code. This approach allows for **progressive rollouts**, **A/B testing**, and **safe feature releases**.
+
+### 🔹 General Structure
+
+Feature flags are managed using **two primary components**:
+
+1. **Feature Flags Configuration (`featureFlags.ts`)**
+
+   - This file defines all **available feature flags**.
+   - Flags are stored as a **record of boolean values**.
+
+2. **Feature Flag Hook (`useFlag.ts`)**
+   - A **custom hook** to read feature flag values.
+   - Uses **local storage overrides**, allowing developers to toggle features locally.
+
+---
+
+### 📂 File Structure
+
+```ts
+src/
+├── config/
+│   ├── feature-flags/
+│   │   ├── featureFlags.ts    # Central feature flag configuration
+├── common/
+│   ├── hooks/
+│   │   ├── useFlag.ts         # Hook to check feature flag status
+```
+
+---
+
+### 🔹 Feature Flags Configuration
+
+Feature flags are **centrally defined** in `src/config/feature-flags/featureFlags.ts`. This ensures all available flags are explicitly listed.
+
+#### ✅ **Example: Defining Feature Flags**
+
+```ts
+// src/config/feature-flags/featureFlags.ts
+
+type FeatureFlagNames = 'profileHeroV2' | 'profileV2'
+
+const featureFlags: Record<FeatureFlagNames, boolean> = {
+  profileHeroV2: false,
+  profileV2: false,
+}
+
+export type { FeatureFlagNames }
+export { featureFlags }
+```
+
+---
+
+### 🔹 Accessing Feature Flags with useFlag
+
+The useFlag hook retrieves the current state of a feature flag, checking for local storage overrides.
+
+✅ Example: Feature Flag Hook
+
+```ts
+// src/common/hooks/useFlag.ts
+
+import { useState, useEffect } from 'react'
+import type { FeatureFlagNames } from 'src/config/feature-flags/featureFlags'
+import { useLocalStorageFlags } from './useLocalStorageFlags'
+
+export const useFlag = (flagKey: FeatureFlagNames | string): boolean => {
+  const [isFlagEnabled, setIsFlagEnabled] = useState(false)
+  const [localFlags] = useLocalStorageFlags()
+
+  useEffect(() => {
+    if (flagKey in localFlags) {
+      const { [flagKey]: localStorageFlag } = localFlags
+      setIsFlagEnabled(String(localStorageFlag).toLowerCase() === 'true')
+    }
+  }, [flagKey, localFlags])
+
+  return isFlagEnabled
+}
+```
+
+---
+
+### 🔹 Using Feature Flags in Components
+
+✅ Example: Conditionally Rendering Components
+
+Feature flags allow conditional rendering of components within a section.
+
+```tsx
+import { useFlag } from 'src/common/hooks/useFlag'
+import { ProfileHero } from './ProfileHero'
+import { ProfileHeroOld } from './ProfileHeroOld'
+
+export const Profile = () => {
+  const isProfileHeroV2Enabled = useFlag('profileHeroV2')
+
+  return (
+    <section>
+      {isProfileHeroV2Enabled ? <ProfileHero /> : <ProfileHeroOld />}
+    </section>
+  )
+}
+```
+
+---
+
+### 🔹 Using Feature Flags for Route-Based Feature Toggles
+
+For **larger changes**, such as enabling an entirely new Profile redesign, we rename the existing feature folder (profile) to `profile-old` and introduce a new `profile/` folder.
+
+Then, in `PageRoutes.tsx`, we dynamically choose which version of `Profile` to render based on the feature flag.
+
+✅ Example: Routing Feature Flag Usage
+
+```tsx
+import { useFlag } from 'src/common/hooks/useFlag'
+import { Routes, Route } from 'react-router-dom'
+import { Home } from 'src/pages/home'
+import { Profile } from 'src/pages/profile'
+import { ProfileOld } from 'src/pages/profile-old'
+
+export const PageRoutes = () => {
+  const isProfileV2Enabled = useFlag('profileV2')
+
+  return (
+    <ScrollToTop>
+      <Routes>
+        <Route element={<Home />} path='/' />
+        <Route
+          element={isProfileV2Enabled ? <Profile /> : <ProfileOld />}
+          path='/profile/:accountHandle'
+        />
+      </Routes>
+    </ScrollToTop>
+  )
+}
+```
+
+---
+
+### 🔹 Feature Flag Guidelines
+
+- **Feature flags should be short-lived**
+  - Avoid leaving feature flags in the codebase for an extended period.
+  - Flags should be **removed once the feature is stable**.
+- **New feature flags must be added to featureFlags.ts**
+  - This ensures **visibility** and prevents unexpected feature toggles.
+- **Use feature flags only for meaningful toggles**
+  - Avoid flagging trivial UI changes.
+  - Flags should be used for **significant features, redesigns, or experiments**.
+- **Local storage overrides take precedence**
+  - Developers can **manually toggle flags via local storage**, making testing easier.
+
+---
+
+✅ Summary
+
+- **Feature flags are stored in `src/config/feature-flags/featureFlags.ts`.**
+- **The `useFlag` hook checks feature flag values, including local storage overrides.**
+- **Flags can be used for component toggles (`ProfileHeroV2`) or route-based toggles (`ProfileV2`).**
+- **Short-lived flags should be cleaned up after rollout is complete.**

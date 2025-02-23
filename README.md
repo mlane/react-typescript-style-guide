@@ -692,7 +692,6 @@ export const ProfileForm = () => {
 #### 🔹 Why This Works
 
 - ✅ **Mutation follows the naming pattern** (UpdateProfileMutationInProfile).
-- ✅ **onSubmit replaces handleUpdateProfile for clarity**.
 - ✅ **Refetching the profile query ensures UI consistency**.
 - ✅ **Error and loading states are aliased as hasError and isLoading** for better readability.
 

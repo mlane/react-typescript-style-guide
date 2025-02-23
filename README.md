@@ -1,3 +1,6 @@
+> **"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."**  
+> — _Martin Fowler_
+
 # 🚀 React + TypeScript Style Guide
 
 A **structured, scalable, and opinionated** style guide for building **maintainable React applications** with **TypeScript**. This guide ensures **consistency, clarity, and best practices** across projects.
@@ -14,6 +17,7 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Comments & Documentation](#-comments--documentation)
 - [Contributing](#-contributing)
 - [License](#-license)
+- [References & Inspirations](#-references--inspirations)
 
 ---
 
@@ -1281,3 +1285,63 @@ You are **free to use, modify, distribute, and share** this project with no rest
 ### 📄 Full License
 
 The full license text is available in the [`LICENSE.md`](./LICENSE.md) file.
+
+---
+
+## 📚 References & Inspirations
+
+This style guide follows **widely accepted industry standards** while maintaining a **minimal, structured, and opinionated** approach. Below are key resources that **align with and support the philosophy, structure, and best practices outlined in this guide**.
+
+### **📌 Key Influences on This Guide**
+
+Each of the following references **shares core principles** with this style guide, such as **clarity, maintainability, predictability, and reducing complexity**.
+
+### **1️⃣ Google TypeScript Style Guide**
+
+🔗 [Google TypeScript Guide](https://google.github.io/styleguide/tsguide.html)  
+✔ **How It Relates:**
+
+- Promotes **readability & maintainability** through **consistent naming, structured function ordering, and predictable patterns**.
+- Encourages **early returns, reducing nesting, and modularization**, which aligns with our **Component Order** and **Separation of Concerns** principles.
+
+### **2️⃣ Airbnb React/JSX Style Guide**
+
+🔗 [Airbnb React Guide](https://airbnb.io/javascript/react/)  
+✔ **How It Relates:**
+
+- Emphasizes **self-contained components, logical function ordering, and clean JSX formatting**.
+- Strongly aligns with our **Component Structure** section, particularly in how we organize hooks, variables, and functions.
+
+### **3️⃣ Shopify JavaScript & TypeScript Style Guide**
+
+🔗 [Shopify JavaScript & TypeScript Guide](https://github.com/Shopify/javascript)  
+✔ **How It Relates:**
+
+- Encourages a **feature-based folder structure**, which aligns with our **Folder Structure** guidelines.
+- Supports **encapsulating GraphQL queries within their feature folders**, matching our **GraphQL Queries** section.
+
+### **4️⃣ TS.dev TypeScript Style Guide**
+
+🔗 [TS.dev Guide](https://ts.dev/style/)  
+✔ **How It Relates:**
+
+- Focuses on **clarity and minimalism**, mirroring our **No Unnecessary Abstraction** principle.
+- Reinforces our approach of **using interfaces for components and types for utilities/hooks**.
+
+### **5️⃣ TypeScript Deep Dive Style Guide**
+
+🔗 [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/styleguide)  
+✔ **How It Relates:**
+
+- Recommends **predictable, structured code organization** and **explicit return types**.
+- Aligns with our **Types & Interfaces** section, particularly in **Extract<>, Pick<>, and Omit<> usage**.
+
+---
+
+### **💡 Final Thoughts**
+
+This style guide follows **industry best practices** while taking a **minimalist approach** to ensure **scalability, predictability, and maintainability**.
+
+By adopting these conventions, you **ensure consistency across projects** while writing **modern, well-structured React + TypeScript code**.
+
+🚀 **Thank you for following this guide! Your contributions help keep codebases clean, readable, and scalable.**

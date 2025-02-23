@@ -1270,6 +1270,8 @@ Thank you for considering contributing to this project! We appreciate your help 
 
 ✅ **Thank you for contributing! We appreciate your support in improving this project.** 🚀
 
+---
+
 ## 📜 License
 
 This project is licensed under the **MIT License**.

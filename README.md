@@ -12,6 +12,7 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Feature Flags](#-feature-flags)
 - [Types & Interfaces](#-types--interfaces)
 - [Comments & Documentation](#-comments--documentation)
+- [Contributing](#-contributing)
 
 ---
 
@@ -1194,3 +1195,76 @@ Before writing a comment, ask:
 - **If a `useEffect` is complex, extract logic into functions instead of writing comments.**
 
 ---
+
+## 🤝 Contributing
+
+Thank you for considering contributing to this project! We appreciate your help in improving and maintaining this repository.
+
+---
+
+### 🔹 How to Contribute
+
+1. **Fork the Repository**
+
+   - Click the **Fork** button on the top right of this repository.
+   - This will create a copy under your GitHub account.
+
+2. **Clone Your Fork**
+
+   - Run the following command to clone the forked repository:
+
+     ```bash
+     git clone https://github.com/YOUR-USERNAME/react-ts-style-guide.git
+     cd react-ts-style-guide
+     ```
+
+3. **Make your changes in `main`**
+
+   - Open the project in your preferred editor.
+   - Make your changes while following the project’s coding guidelines.
+
+4. **Commit your changes**
+
+   ```bash
+   git add .
+   git commit -m "Describe your changes"
+   ```
+
+5. **Push to your fork**
+
+   ```bash
+   git push origin main
+   ```
+
+6. **Create a Pull Request**
+   - Go to the **original repository** on GitHub.
+   - Click **Compare & pull request**.
+   - Add a **clear description** of your changes.
+   - Click **Create pull request**.
+
+---
+
+### 🔹 Contribution Guidelines
+
+- **Keep PRs small and focused**
+
+  - If your change is large, consider breaking it into smaller PRs.
+
+- **Follow the existing code style**
+
+  - Ensure your code follows formatting and linting rules.
+
+- **Write clear commit messages**
+
+  - Use concise descriptions like `Fix button alignment issue` or `Add support for dark mode`.
+
+- **Ensure your changes do not break existing functionality**
+
+  - Test your changes before submitting.
+
+- **Be respectful and collaborative**
+  - We appreciate all contributions and encourage constructive feedback.
+
+---
+
+✅ **Thank you for contributing! We appreciate your support in improving this project.** 🚀

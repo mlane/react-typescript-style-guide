@@ -11,6 +11,7 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [GraphQL Queries](#-graphql-queries)
 - [Feature Flags](#-feature-flags)
 - [Types & Interfaces](#-types--interfaces)
+- [Comments & Documentation](#-comments--documentation)
 
 ---
 
@@ -1006,3 +1007,190 @@ type UseGetProfileQueryResult = {
 - **Use type for everything else (utilities, hooks, GraphQL queries, API responses).**
 - **Use `Extract<>` to ensure type safety when narrowing GraphQL query results.**
 - **Keep types minimal and readable—avoid unnecessary abstractions.**
+
+---
+
+## 📝 Comments & Documentation
+
+A **minimalist approach** to comments ensures code is **clean, readable, and self-explanatory**. Instead of excessive commenting, we prioritize **descriptive function and variable names**. Comments are used **only when necessary**, such as for **complex logic, workarounds, or TODOs**.
+
+---
+
+### 🔹 General Rules
+
+- **Favor meaningful variable and function names over comments.**
+
+  - Code should **explain itself** rather than rely on comments.
+  - If logic is unclear, **refactor instead of adding a comment**.
+
+- **Use JSDoc (`@link`) when the workaround requires a reference link, external documentation, or detailed explanation.**
+
+  - JSDoc ensures proper linking in documentation tools like TypeDoc.
+  - Example: `@link https://stackoverflow.com/q/xxxx Safari Quirk`
+
+- **Use JSDoc (`@todo`) for marking future work.**
+
+  - We use `@todo` in JSDoc **sparingly** for tracking unfinished tasks.
+  - If a task has a corresponding Linear issue, consider referencing it using `@todo Linear-123`.
+    - Example: `/** @todo TMNT-123 Update this when the new API version is available */`
+  - JSDoc comments should be **above the function or logic they reference**.
+  - Prefer **compact, one-line comments** whenever possible.
+
+- **Use inline `//` comments for workarounds or technical limitations.**
+
+  - These should be **short** and placed **directly above the relevant line**.
+
+- **Avoid excessive commenting.**
+  - **Only document "why"** something is done, not **"what"** the code does.
+
+---
+
+### 🔹 Using JSDoc for TODOs
+
+We **only** use JSDoc (`/** @todo */`) for tracking future work.
+
+✅ **Example: JSDoc TODO for Future Enhancements**
+
+```ts
+/** @todo Update this when the new API version is available */
+const getUserPreferences = async (userId: string) => {
+  try {
+    return await fetch(`/api/preferences/${userId}`)
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+```
+
+❌ Avoid Unnecessary TODO Comments
+
+This format is not compatible with JSDoc linters.
+
+```ts
+// @todo Update this when the new API version is available
+const getUserPreferences = async (userId: string) => {
+  try {
+    return await fetch(`/api/preferences/${userId}`)
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+```
+
+💡 Key Difference:
+
+- **✅ Use `@todo` for JSDoc-style TODOs.**
+- **❌ Avoid inline `// @todo` comments.**
+
+JSDoc is more structured and aligns with tools that scan TODOs.
+
+---
+
+### 🔹 Inline Comments for Workarounds
+
+Use inline `//` comments for technical workarounds, browser quirks, or unexpected API behavior.
+
+✅ Example: Workaround for Safari Quirk
+
+```ts
+const scrollToTop = () => {
+  window.scrollTo(0, 0)
+  // Safari requires a slight delay for smooth scrolling
+  setTimeout(() => window.scrollTo(0, 0), 10)
+}
+```
+
+✅ Example: Workaround for Safari Quirk with `@link`
+
+```ts
+/**
+ * Safari requires a slight delay for smooth scrolling.
+ * More details: {@link https://stackoverflow.com/q/xxxx Safari Quirk}
+ */
+const scrollToTop = () => {
+  window.scrollTo(0, 0)
+  setTimeout(() => window.scrollTo(0, 0), 10)
+}
+```
+
+❌ Avoid Redundant Comments
+
+```ts
+const scrollToTop = () => {
+  // Scrolls to the top of the page
+  window.scrollTo(0, 0)
+}
+```
+
+💡 Key Difference:
+
+- **✅ Comments should explain “why” a workaround is needed.**
+- **❌ Avoid stating what the code already makes obvious.**
+
+---
+
+### 🔹 Handling Complex useEffect Hooks
+
+For `useEffect`, prefer extracting logic into functions instead of writing comments inline.
+
+✅ Example: Extracting Logic Into a Function
+
+```ts
+useEffect(() => {
+  syncUserPreferences()
+}, [])
+
+const syncUserPreferences = async () => {
+  try {
+    /** @todo Remove this workaround when the API provides real-time updates */
+    const preferences = await getUserPreferences(user.id)
+    applyUserPreferences(preferences)
+  } catch (error) {
+    console.error(error)
+  }
+}
+```
+
+❌ Example of an Overloaded useEffect with Comments
+
+```ts
+useEffect(() => {
+  // Fetch user preferences and apply them
+  fetch(`/api/preferences/${user.id}`)
+    .then(res => res.json())
+    .then(preferences => {
+      // Apply user preferences
+      applyUserPreferences(preferences)
+    })
+}, [])
+```
+
+💡 Key Takeaway:
+
+- **✅ Extract logic into functions rather than writing inline comments in `useEffect`.**
+- **❌ Long comments inside `useEffect` add clutter.**
+
+### 🔹 When to Write a Comment vs. Refactor?
+
+Before writing a comment, ask:
+
+- **Is the function name clear enough?**
+  - If **no**, rename the function instead of adding a comment.
+- **Is this logic unavoidable or non-obvious?**
+  - If **yes**, add an inline comment.
+- **Is this a workaround for a browser quirk or API limitation?**
+  - If **yes**, a comment is useful.
+
+---
+
+✅ Summary
+
+- **Avoid unnecessary comments—favor meaningful variable & function names.**
+- **Use JSDoc `@todo` for tracking future work.**
+- **Use inline `//` comments only for workarounds or unexpected behavior.**
+- **Refactor first, comment as a last resort.**
+- **If a `useEffect` is complex, extract logic into functions instead of writing comments.**
+
+---

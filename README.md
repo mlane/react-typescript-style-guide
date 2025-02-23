@@ -13,6 +13,7 @@ A **structured, scalable, and opinionated** style guide for building **maintaina
 - [Types & Interfaces](#-types--interfaces)
 - [Comments & Documentation](#-comments--documentation)
 - [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
@@ -1268,3 +1269,13 @@ Thank you for considering contributing to this project! We appreciate your help 
 ---
 
 ✅ **Thank you for contributing! We appreciate your support in improving this project.** 🚀
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+You are **free to use, modify, distribute, and share** this project with no restrictions, as long as the original license and copyright notice are included.
+
+### 📄 Full License
+
+The full license text is available in the [`LICENSE.md`](./LICENSE.md) file.

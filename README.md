@@ -114,11 +114,11 @@ structure keeps related files **encapsulated** while providing clear separation 
   - This allows **cleaner imports** and prevents deep import paths.
   - **Example:**
     ```tsx
-    import { ProfileHero } from "src/pages/profile/common";
+    import { ProfileHero } from 'src/pages/profile/common'
     ```
     Instead of:
     ```tsx
-    import { ProfileHero } from "src/pages/profile/common/ProfileHero/ProfileHero";
+    import { ProfileHero } from 'src/pages/profile/common/ProfileHero/ProfileHero'
     ```
   - Recommended for:
     - Feature directories (`pages/profile/index.ts`)
@@ -213,23 +213,23 @@ Components should follow this order:
 
 ```tsx
 export const Profile = () => {
-  const navigate = useNavigate();
-  const { accountHandle } = useParams();
-  const { hasError, isLoading, profileData } = useGetProfileQuery(accountHandle);
-  const [searchParams] = useSearchParams();
-  const { id, image } = profileData ?? {};
+  const navigate = useNavigate()
+  const { accountHandle } = useParams()
+  const { hasError, isLoading, profileData } = useGetProfileQuery(accountHandle)
+  const [searchParams] = useSearchParams()
+  const { id, image } = profileData ?? {}
 
   useEffect(() => {
     // Example: Track analytics
-  }, []);
+  }, [])
 
-  const getProfileAvatar = () => {};
+  const getProfileAvatar = () => {}
 
-  const getProfileName = () => {};
+  const getProfileName = () => {}
 
-  if (isLoading || isEmpty(profileData)) return <ProfileLoading />;
+  if (isLoading || isEmpty(profileData)) return <ProfileLoading />
 
-  if (hasError) return <ProfileEmpty />;
+  if (hasError) return <ProfileEmpty />
 
   return (
     <section>
@@ -239,8 +239,8 @@ export const Profile = () => {
         <ProfileContent />
       </div>
     </section>
-  );
-};
+  )
+}
 ```
 
 ---
@@ -250,7 +250,7 @@ export const Profile = () => {
 - **One-line return when there is no logic.**
 
 ```tsx
-export const Profile = () => <section>...</section>;
+export const Profile = () => <section>...</section>
 ```
 
 - **Use multiple lines for JSX if it improves readability.**
@@ -261,7 +261,7 @@ export const Profile = () => (
     <ProfileHero />
     <ProfileSidebar />
   </section>
-);
+)
 ```
 
 ---
@@ -271,30 +271,30 @@ export const Profile = () => (
 - **No extra space between hooks and variables.**
 
 ```tsx
-const navigate = useNavigate();
-const { accountHandle } = useParams();
-const { hasError, isLoading, profileData } = useGetProfileQuery(accountHandle);
-const [searchParams] = useSearchParams();
-const { id, image } = profileData ?? {};
+const navigate = useNavigate()
+const { accountHandle } = useParams()
+const { hasError, isLoading, profileData } = useGetProfileQuery(accountHandle)
+const [searchParams] = useSearchParams()
+const { id, image } = profileData ?? {}
 ```
 
 - **Add a space between function declarations for readability.**
 
 ```tsx
-const getProfileAvatar = () => {};
+const getProfileAvatar = () => {}
 
-const getProfileName = () => {};
+const getProfileName = () => {}
 ```
 
 - **Space out `useEffect` from other hooks.**
 
 ```tsx
-const navigate = useNavigate();
-const { accountHandle } = useParams();
+const navigate = useNavigate()
+const { accountHandle } = useParams()
 
 useEffect(() => {
   // Example: Sync data on mount
-}, []);
+}, [])
 ```
 
 ---
@@ -304,13 +304,13 @@ useEffect(() => {
 - **Use `PascalCase` for component names.**
 
 ```tsx
-export const ProfileHero = () => <div>Profile Hero</div>;
+export const ProfileHero = () => <div>Profile Hero</div>
 ```
 
 - **Use `camelCase` for non-component functions.**
 
 ```tsx
-const getProfileName = () => {};
+const getProfileName = () => {}
 ```
 
 ---
@@ -322,7 +322,7 @@ const getProfileName = () => {};
 
 ```tsx
 export const Profile = () => (
-  <section className="bg-red">
+  <section className='bg-red'>
     <ProfileHero />
     <div>
       <ProfileSidebar />
@@ -330,22 +330,22 @@ export const Profile = () => (
       <Button>Click me</Button>
     </div>
   </section>
-);
+)
 ```
 
 ```tsx
 export const ProfileLoading = () => (
-  <section className="bg-red">
+  <section className='bg-red'>
     <ProfileHeroLoading />
     <div>
       <ProfileSidebarLoading />
       <ProfileContentLoading />
-      <div className="h-12 w-20">
-        <Skeleton variant="rounded" />
+      <div className='h-12 w-20'>
+        <Skeleton variant='rounded' />
       </div>
     </div>
   </section>
-);
+)
 ```
 
 ---
@@ -411,11 +411,11 @@ constants/userUtils.ts # Shared utilities across features
 ✅ **Example: Exporting Multiple Utilities**
 
 ```ts
-const getProfileAvatar = () => {};
+const getProfileAvatar = () => {}
 
-const getProfileName = () => {};
+const getProfileName = () => {}
 
-export { getProfileAvatar, getProfileName };
+export { getProfileAvatar, getProfileName }
 ```
 
 ---
@@ -427,31 +427,31 @@ export { getProfileAvatar, getProfileName };
 ❌ **Bad Example (Unnecessary Nesting)**
 
 ```ts
-const getUserDetails = (user) => {
+const getUserDetails = user => {
   if (user) {
     return {
       id: user.id,
       name: user.name,
       email: user.email,
-    };
+    }
   } else {
-    return null;
+    return null
   }
-};
+}
 ```
 
 ✅ **Good Example (Flat and Readable)**
 
 ```ts
-const getUserDetails = (user) => {
-  if (!user) return null;
+const getUserDetails = user => {
+  if (!user) return null
 
   return {
     id: user.id,
     name: user.name,
     email: user.email,
-  };
-};
+  }
+}
 ```
 
 ---
@@ -591,18 +591,18 @@ query GetPredefinedGuideTags {
 ### 🔹 Example: Query for Fetching Profile Data
 
 ```ts
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery } from '@apollo/client'
 
 type UseGetProfileQueryResult = {
-  hasError: ApolloError;
-  isLoading: boolean;
+  hasError: ApolloError
+  isLoading: boolean
   profileData: Extract<
-    GetProfileQueryInProfileQuery["node"],
+    GetProfileQueryInProfileQuery['node'],
     {
-      __typename?: "Profile";
+      __typename?: 'Profile'
     }
-  >;
-};
+  >
+}
 
 const profileQuery = gql(`
   query GetProfileQueryInProfile($id: ID!) {
@@ -615,7 +615,7 @@ const profileQuery = gql(`
       }
     }
   }
-`);
+`)
 
 export const useGetProfileQuery = (id: string): UseGetProfileQueryResult => {
   const {
@@ -626,14 +626,14 @@ export const useGetProfileQuery = (id: string): UseGetProfileQueryResult => {
     variables: {
       id,
     },
-  });
+  })
 
   return {
     hasError,
     isLoading,
     profileData: data?.node,
-  };
-};
+  }
+}
 ```
 
 #### 🔹 Why This Works
@@ -648,7 +648,7 @@ export const useGetProfileQuery = (id: string): UseGetProfileQueryResult => {
 ### 🔹 Example: Mutation for Updating Profile
 
 ```ts
-import { gql, useMutation } from "@apollo/client";
+import { gql, useMutation } from '@apollo/client'
 
 const updateProfileMutation = gql(`
   mutation UpdateProfileMutationInProfile($updateProfileInput: UpdateProfileInput!) {
@@ -657,14 +657,14 @@ const updateProfileMutation = gql(`
       displayName
     }
   }
-`);
+`)
 
-export const useUpdateProfileMutation = () => useMutation(updateProfileMutation);
+export const useUpdateProfileMutation = () => useMutation(updateProfileMutation)
 ```
 
 ```tsx
 export const ProfileForm = () => {
-  const [updateProfile, updateProfileResult] = useUpdateProfileMutation();
+  const [updateProfile, updateProfileResult] = useUpdateProfileMutation()
 
   const onSubmit = async (id: string, displayName: string) => {
     try {
@@ -675,18 +675,18 @@ export const ProfileForm = () => {
             id,
           },
         },
-      });
+      })
     } catch (error) {
-      console.error("Failed to update profile", error);
+      console.error('Failed to update profile', error)
     }
-  };
+  }
 
   return (
     <form onSubmit={onSubmit}>
-      <button type="submit">Update Profile</button>
+      <button type='submit'>Update Profile</button>
     </form>
-  );
-};
+  )
+}
 ```
 
 #### 🔹 Why This Works
@@ -742,15 +742,15 @@ are explicitly listed.
 ```ts
 // src/config/feature-flags/featureFlags.ts
 
-type FeatureFlagNames = "profileHeroV2" | "profileV2";
+type FeatureFlagNames = 'profileHeroV2' | 'profileV2'
 
 const featureFlags: Record<FeatureFlagNames, boolean> = {
   profileHeroV2: false,
   profileV2: false,
-};
+}
 
-export type { FeatureFlagNames };
-export { featureFlags };
+export type { FeatureFlagNames }
+export { featureFlags }
 ```
 
 ---
@@ -764,23 +764,23 @@ The useFlag hook retrieves the current state of a feature flag, checking for loc
 ```ts
 // src/common/hooks/useFlag.ts
 
-import { useState, useEffect } from "react";
-import type { FeatureFlagNames } from "src/config/feature-flags/featureFlags";
-import { useLocalStorageFlags } from "./useLocalStorageFlags";
+import { useState, useEffect } from 'react'
+import type { FeatureFlagNames } from 'src/config/feature-flags/featureFlags'
+import { useLocalStorageFlags } from './useLocalStorageFlags'
 
 export const useFlag = (flagKey: FeatureFlagNames | string): boolean => {
-  const [isFlagEnabled, setIsFlagEnabled] = useState(false);
-  const [localFlags] = useLocalStorageFlags();
+  const [isFlagEnabled, setIsFlagEnabled] = useState(false)
+  const [localFlags] = useLocalStorageFlags()
 
   useEffect(() => {
     if (flagKey in localFlags) {
-      const { [flagKey]: localStorageFlag } = localFlags;
-      setIsFlagEnabled(String(localStorageFlag).toLowerCase() === "true");
+      const { [flagKey]: localStorageFlag } = localFlags
+      setIsFlagEnabled(String(localStorageFlag).toLowerCase() === 'true')
     }
-  }, [flagKey, localFlags]);
+  }, [flagKey, localFlags])
 
-  return isFlagEnabled;
-};
+  return isFlagEnabled
+}
 ```
 
 ---
@@ -792,15 +792,19 @@ export const useFlag = (flagKey: FeatureFlagNames | string): boolean => {
 Feature flags allow conditional rendering of components within a section.
 
 ```tsx
-import { useFlag } from "src/common/hooks/useFlag";
-import { ProfileHero } from "./ProfileHero";
-import { ProfileHeroOld } from "./ProfileHeroOld";
+import { useFlag } from 'src/common/hooks/useFlag'
+import { ProfileHero } from './ProfileHero'
+import { ProfileHeroOld } from './ProfileHeroOld'
 
 export const Profile = () => {
-  const isProfileHeroV2Enabled = useFlag("profileHeroV2");
+  const isProfileHeroV2Enabled = useFlag('profileHeroV2')
 
-  return <section>{isProfileHeroV2Enabled ? <ProfileHero /> : <ProfileHeroOld />}</section>;
-};
+  return (
+    <section>
+      {isProfileHeroV2Enabled ? <ProfileHero /> : <ProfileHeroOld />}
+    </section>
+  )
+}
 ```
 
 ---
@@ -815,24 +819,27 @@ Then, in `PageRoutes.tsx`, we dynamically choose which version of `Profile` to r
 ✅ Example: Routing Feature Flag Usage
 
 ```tsx
-import { useFlag } from "src/common/hooks/useFlag";
-import { Routes, Route } from "react-router-dom";
-import { Home } from "src/pages/home";
-import { Profile } from "src/pages/profile";
-import { ProfileOld } from "src/pages/profile-old";
+import { useFlag } from 'src/common/hooks/useFlag'
+import { Routes, Route } from 'react-router-dom'
+import { Home } from 'src/pages/home'
+import { Profile } from 'src/pages/profile'
+import { ProfileOld } from 'src/pages/profile-old'
 
 export const PageRoutes = () => {
-  const isProfileV2Enabled = useFlag("profileV2");
+  const isProfileV2Enabled = useFlag('profileV2')
 
   return (
     <ScrollToTop>
       <Routes>
-        <Route element={<Home />} path="/" />
-        <Route element={isProfileV2Enabled ? <Profile /> : <ProfileOld />} path="/profile/:accountHandle" />
+        <Route element={<Home />} path='/' />
+        <Route
+          element={isProfileV2Enabled ? <Profile /> : <ProfileOld />}
+          path='/profile/:accountHandle'
+        />
       </Routes>
     </ScrollToTop>
-  );
-};
+  )
+}
 ```
 
 ---
@@ -896,11 +903,13 @@ the codebase.
 
 ```tsx
 interface ProfileHeroProps {
-  title: string;
-  onClick: () => void;
+  title: string
+  onClick: () => void
 }
 
-export const ProfileHero = ({ title, onClick }: ProfileHeroProps) => <div onClick={onClick}>{title}</div>;
+export const ProfileHero = ({ title, onClick }: ProfileHeroProps) => (
+  <div onClick={onClick}>{title}</div>
+)
 ```
 
 ✅ Example: Extending an Interface
@@ -908,20 +917,25 @@ export const ProfileHero = ({ title, onClick }: ProfileHeroProps) => <div onClic
 Use `interface` to extend props cleanly, while type uses `&` for merging multiple types.
 
 ```tsx
-import { Button } from "@travelpass/design-system";
-import type { GenericAddress } from "src/__generated__/graphql";
+import { Button } from '@travelpass/design-system'
+import type { GenericAddress } from 'src/__generated__/graphql'
 
 interface ProfileAddressProps extends GenericAddress {
-  onClick: VoidFunction;
+  onClick: VoidFunction
 }
 
-export const ProfileAddress = ({ addressLine1, city, country, onClick }: ProfileAddressProps) => (
+export const ProfileAddress = ({
+  addressLine1,
+  city,
+  country,
+  onClick,
+}: ProfileAddressProps) => (
   <section>
     <h2>{name}</h2>
     <p>{getAddress(addressLine1, city, country)}</p>
     <Button onClick={onClick}>Edit</Button>
   </section>
-);
+)
 ```
 
 ---
@@ -936,35 +950,35 @@ These help create lightweight, flexible types for better reusability.
 
 ```ts
 type UseGetProfileQueryResult = {
-  hasError: ApolloError;
-  isLoading: boolean;
+  hasError: ApolloError
+  isLoading: boolean
   profileData: Extract<
-    GetProfileQueryInProfileQuery["node"],
+    GetProfileQueryInProfileQuery['node'],
     {
-      __typename?: "Profile";
+      __typename?: 'Profile'
     }
-  >;
-};
+  >
+}
 ```
 
 ✅ Example: Extracting Only Specific Keys from an Object
 
 ```ts
-type UserKeys = "id" | "email";
+type UserKeys = 'id' | 'email'
 
-type UserInfo = Pick<User, UserKeys>;
+type UserInfo = Pick<User, UserKeys>
 ```
 
 ✅ Example: Omitting Unnecessary Fields from an Object
 
 ```ts
 type User = {
-  id: string;
-  email: string;
-  password: string;
-};
+  id: string
+  email: string
+  password: string
+}
 
-type PublicUser = Omit<User, "password">;
+type PublicUser = Omit<User, 'password'>
 ```
 
 ✅ Example: Combining Multiple Types
@@ -973,15 +987,15 @@ Use `&` to merge multiple types, providing more flexibility than `interface` ext
 
 ```ts
 type Base = {
-  createdAt: string;
-};
+  createdAt: string
+}
 
 type Profile = {
-  id: string;
-  name: string;
-};
+  id: string
+  name: string
+}
 
-type ProfileWithBase = Profile & Base;
+type ProfileWithBase = Profile & Base
 ```
 
 ---
@@ -994,10 +1008,13 @@ type ProfileWithBase = Profile & Base;
 
 ```ts
 type UseGetProfileQueryResult = {
-  hasError: ApolloError;
-  isLoading: boolean;
-  profileData: Extract<GetProfileQueryInProfileQuery["node"], { __typename?: "Profile" }>;
-};
+  hasError: ApolloError
+  isLoading: boolean
+  profileData: Extract<
+    GetProfileQueryInProfileQuery['node'],
+    { __typename?: 'Profile' }
+  >
+}
 ```
 
 ---
@@ -1008,9 +1025,9 @@ type UseGetProfileQueryResult = {
 
 ```ts
 interface UseGetProfileQueryResult {
-  hasError: ApolloError;
-  isLoading: boolean;
-  profileData: Profile | null;
+  hasError: ApolloError
+  isLoading: boolean
+  profileData: Profile | null
 }
 ```
 
@@ -1018,10 +1035,10 @@ interface UseGetProfileQueryResult {
 
 ```ts
 type UseGetProfileQueryResult = {
-  hasError: ApolloError;
-  isLoading: boolean;
-  profileData: Profile | null;
-};
+  hasError: ApolloError
+  isLoading: boolean
+  profileData: Profile | null
+}
 ```
 
 ---
@@ -1083,12 +1100,12 @@ We **only** use JSDoc (`/** @todo */`) for tracking future work.
 /** @todo Update this when the new API version is available */
 const getUserPreferences = async (userId: string) => {
   try {
-    return await fetch(`/api/preferences/${userId}`);
+    return await fetch(`/api/preferences/${userId}`)
   } catch (error) {
-    console.error(error);
-    return null;
+    console.error(error)
+    return null
   }
-};
+}
 ```
 
 ❌ Avoid Unnecessary TODO Comments
@@ -1099,12 +1116,12 @@ This format is not compatible with JSDoc linters.
 // @todo Update this when the new API version is available
 const getUserPreferences = async (userId: string) => {
   try {
-    return await fetch(`/api/preferences/${userId}`);
+    return await fetch(`/api/preferences/${userId}`)
   } catch (error) {
-    console.error(error);
-    return null;
+    console.error(error)
+    return null
   }
-};
+}
 ```
 
 💡 Key Difference:
@@ -1124,10 +1141,10 @@ Use inline `//` comments for technical workarounds, browser quirks, or unexpecte
 
 ```ts
 const scrollToTop = () => {
-  window.scrollTo(0, 0);
+  window.scrollTo(0, 0)
   // Safari requires a slight delay for smooth scrolling
-  setTimeout(() => window.scrollTo(0, 0), 10);
-};
+  setTimeout(() => window.scrollTo(0, 0), 10)
+}
 ```
 
 ✅ Example: Workaround for Safari Quirk with `@link`
@@ -1138,9 +1155,9 @@ const scrollToTop = () => {
  * More details: {@link https://stackoverflow.com/q/xxxx Safari Quirk}
  */
 const scrollToTop = () => {
-  window.scrollTo(0, 0);
-  setTimeout(() => window.scrollTo(0, 0), 10);
-};
+  window.scrollTo(0, 0)
+  setTimeout(() => window.scrollTo(0, 0), 10)
+}
 ```
 
 ❌ Avoid Redundant Comments
@@ -1148,8 +1165,8 @@ const scrollToTop = () => {
 ```ts
 const scrollToTop = () => {
   // Scrolls to the top of the page
-  window.scrollTo(0, 0);
-};
+  window.scrollTo(0, 0)
+}
 ```
 
 💡 Key Difference:
@@ -1167,18 +1184,18 @@ For `useEffect`, prefer extracting logic into functions instead of writing comme
 
 ```ts
 useEffect(() => {
-  syncUserPreferences();
-}, []);
+  syncUserPreferences()
+}, [])
 
 const syncUserPreferences = async () => {
   try {
     /** @todo Remove this workaround when the API provides real-time updates */
-    const preferences = await getUserPreferences(user.id);
-    applyUserPreferences(preferences);
+    const preferences = await getUserPreferences(user.id)
+    applyUserPreferences(preferences)
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 ```
 
 ❌ Example of an Overloaded useEffect with Comments
@@ -1187,12 +1204,12 @@ const syncUserPreferences = async () => {
 useEffect(() => {
   // Fetch user preferences and apply them
   fetch(`/api/preferences/${user.id}`)
-    .then((res) => res.json())
-    .then((preferences) => {
+    .then(res => res.json())
+    .then(preferences => {
       // Apply user preferences
-      applyUserPreferences(preferences);
-    });
-}, []);
+      applyUserPreferences(preferences)
+    })
+}, [])
 ```
 
 💡 Key Takeaway:
@@ -1242,8 +1259,8 @@ repository.
    - Run the following command to clone the forked repository:
 
      ```bash
-     git clone https://github.com/YOUR-USERNAME/react-ts-style-guide.git
-     cd react-ts-style-guide
+     git clone https://github.com/YOUR-USERNAME/react-typescript-style-guide.git
+     cd react-typescript-style-guide
      ```
 
 3. **Make your changes in `main`**

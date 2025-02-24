@@ -127,7 +127,7 @@ structure keeps related files **encapsulated** while providing clear separation 
 
 ---
 
-```
+```plaintext
 app/
 ├── routes/
 ├── src/
@@ -492,7 +492,7 @@ across the application.
 
 ✅ Example:
 
-```
+```plaintext
 src/pages/profile/useGetProfileQuery.ts # Feature-specific query
 src/pages/profile/useCreateProfileMutation.ts # Feature-specific mutation
 src/hooks/useGetPredefinedGuideTagsQuery.ts # Sitewide query (used across features)
@@ -527,7 +527,7 @@ To differentiate feature-specific GraphQL queries/mutations from global queries,
 
 ✅ Example:
 
-```
+```plaintext
 src/pages/profile/useGetProfileQuery.ts # Query used only in Profile
 src/pages/profile/useUpdateProfileMutation.ts # Mutation used only in Profile
 ```
@@ -554,7 +554,7 @@ query GetProfileQueryInProfile($id: ID!) {
 
 ✅ Example:
 
-```
+```plaintext
 src/hooks/useGetPredefinedGuideTagsQuery.ts # Sitewide query
 ```
 
@@ -736,7 +736,7 @@ Feature flags are managed using **two primary components**:
 
 ### 📂 File Structure
 
-```ts
+```plaintext
 src/
 ├── config/
 │   ├── feature-flags/

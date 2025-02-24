@@ -919,11 +919,11 @@ the codebase.
 
 ```tsx
 interface ProfileHeroProps {
-  title: string
   onClick: () => void
+  title: string
 }
 
-export const ProfileHero = ({ title, onClick }: ProfileHeroProps) => (
+export const ProfileHero = ({ onClick, title }: ProfileHeroProps) => (
   <div onClick={onClick}>{title}</div>
 )
 ```
@@ -1028,7 +1028,9 @@ type UseGetProfileQueryResult = {
   isLoading: boolean
   profileData: Extract<
     GetProfileQueryInProfileQuery['node'],
-    { __typename?: 'Profile' }
+    {
+      __typename?: 'Profile'
+    }
   >
 }
 ```
@@ -1043,7 +1045,7 @@ type UseGetProfileQueryResult = {
 interface UseGetProfileQueryResult {
   hasError: ApolloError
   isLoading: boolean
-  profileData: Profile | null
+  profileData: Profile
 }
 ```
 
@@ -1053,7 +1055,7 @@ interface UseGetProfileQueryResult {
 type UseGetProfileQueryResult = {
   hasError: ApolloError
   isLoading: boolean
-  profileData: Profile | null
+  profileData: Profile
 }
 ```
 

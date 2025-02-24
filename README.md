@@ -148,10 +148,26 @@ app/
 │   │   ├── ApolloProvider.tsx
 │   │   ├── index.ts
 ├── constants/                    # Global constants/utils (if used in multiple features)
+│   ├── guideUtils.ts             # Example: Used in multiple features
 │   ├── index.ts
 │   ├── user.ts
-│   ├── guideUtils.ts             # Example: Used in multiple features
 ├── pages/
+│   ├── guide/
+│   │   ├── common/
+│   │   │   ├── GuideHero/
+│   │   │   │   ├── GuideHero.tsx
+│   │   │   │   ├── GuideHeroLoading.tsx
+│   │   │   │   ├── index.ts
+│   │   │   ├── GuideLoading.tsx
+│   │   │   ├── index.ts
+│   │   ├── Guide.tsx
+│   │   ├── index.ts               # For cleaner imports
+│   │   ├── guideConstants.ts (if needed)
+│   │   ├── guideUtils.ts (if needed)
+│   │   ├── types.ts (if needed)
+│   │   ├── useCreateGuideMutation.ts
+│   │   ├── useGetGuideQuery.ts
+│   │   ├── useUpdateGuideMutation.ts
 │   ├── profile/
 │   │   ├── common/
 │   │   │   ├── ProfileLoading.tsx
@@ -159,13 +175,14 @@ app/
 │   │   │   │   ├── ProfileHero.tsx
 │   │   │   │   ├── ProfileHeroLoading.tsx
 │   │   │   │   ├── index.ts
+│   │   │   ├── index.ts
 │   │   ├── Profile.tsx
 │   │   ├── index.ts               # For cleaner imports
 │   │   ├── profileConstants.ts (if needed)
 │   │   ├── profileUtils.ts (if needed)
 │   │   ├── types.ts (if needed)
-│   │   ├── useGetProfileQuery.ts (if needed)
-│   │   ├── useCreateProfileMutation.ts (if needed)
+│   │   ├── useCreateProfileMutation.ts
+│   │   ├── useGetProfileQuery.ts
 ```
 
 ---

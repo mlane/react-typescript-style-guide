@@ -1,0 +1,32 @@
+---
+import Readme from '../../README.mdx'
+import '../global.css'
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='generator' content={Astro.generator} />
+    <title>React + TypeScript Style Guide</title>
+    <meta
+      name='description'
+      content='An opinionated guide to writing scalable and maintainable React + TypeScript code, inspired by best practices and industry standards.'
+    />
+  </head>
+  <body>
+    <main class='max-w-3xl mx-auto py-10 px-6'>
+      <h1 class='text-4xl font-bold text-primary mb-4'>
+        React + TypeScript Style Guide
+      </h1>
+      <p class='text-lg text-gray-600'>
+        A clean and consistent guide for writing high-quality React + TypeScript
+        code.
+      </p>
+      <article class='prose prose-lg mt-6'>
+        <Readme />
+      </article>
+    </main>
+  </body>
+</html>

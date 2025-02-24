@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  --global-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.6;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #f8f9fa;
+}
+
+body {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #222;
+}
+
+h2 {
+  font-size: 1.75rem;
+  color: #444;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: #555;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+ul, ol {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Links */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+blockquote {
+  border-left: 4px solid #007bff;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  color: #555;
+  font-style: italic;
+}
+
+pre, code {
+  font-family: "Courier New", monospace;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+pre {
+  padding: 1rem;
+  overflow-x: auto;
+  background: #282c34;
+  color: #fff;
+  border-radius: 6px;
+}
+
+pre + pre {
+  margin-top: 1rem;
+}
+
+code {
+  color: #d63384;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  background: #fff;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+}
+
+th {
+  background: #007bff;
+  color: #fff;
+}
+
+/* Horizontal Line */
+hr {
+  margin: 2rem 0;
+  border: 0;
+  height: 1px;
+  background: #ddd;
+}

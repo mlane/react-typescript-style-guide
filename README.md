@@ -112,14 +112,14 @@ structure keeps related files **encapsulated** while providing clear separation 
 - **Standardized `index.ts` Usage**
   - **Wherever applicable, folders should contain an `index.ts` file** to simplify imports.
   - This allows **cleaner imports** and prevents deep import paths.
-  - **Example:**
-    ```tsx
-    import { ProfileHero } from 'src/pages/profile/common'
-    ```
-    Instead of:
-    ```tsx
-    import { ProfileHero } from 'src/pages/profile/common/ProfileHero/ProfileHero'
-    ```
+    - **Example:**
+      ```tsx
+      import { ProfileHero } from 'src/pages/profile/common'
+      ```
+      Instead of:
+      ```tsx
+      import { ProfileHero } from 'src/pages/profile/common/ProfileHero/ProfileHero'
+      ```
   - Recommended for:
     - Feature directories (`pages/profile/index.ts`)
     - Common utilities and hooks (`common/hooks/index.ts`)

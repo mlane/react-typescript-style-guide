@@ -1,0 +1,37 @@
+{
+  "trailingComma": "es5",
+  "semi": false,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "arrowParens": "avoid",
+  "bracketSameLine": false,
+  "plugins": ["prettier-plugin-astro"],
+  "overrides": [
+    {
+      "files": "*.astro",
+      "options": {
+        "parser": "astro",
+        "singleQuote": true,
+        "jsxSingleQuote": true
+      }
+    },
+    {
+      "files": "*.tsx",
+      "options": {
+        "parser": "typescript",
+        "singleQuote": true,
+        "jsxSingleQuote": true
+      }
+    },
+    {
+      "files": "*.md",
+      "options": {
+        "parser": "markdown",
+        "semi": false,
+        "singleQuote": true,
+        "arrowParens": "avoid",
+        "embeddedLanguageFormatting": "off"
+      }
+    }
+  ]
+}

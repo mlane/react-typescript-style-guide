@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "paths": {
+      "@components/*": [
+        "src/components/*"
+      ]
+    },
+    "strict": true,
+    "target": "ESNext"
+  },
+  "exclude": [
+    "**/*.md",
+    "dist",
+    "node_modules"
+  ],
+  "extends": "astro/tsconfigs/strict",
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ]
+}

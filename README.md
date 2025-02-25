@@ -76,7 +76,10 @@ structure keeps related files **encapsulated** while providing clear separation 
 - **Feature-based structure (`pages/featureName/`)**
 
   - Each feature has its own folder inside `pages/`.
-  - **Example:** `pages/profile/` contains all Profile-related logic.
+    - **Example:** `pages/profile/` contains all Profile-related logic.
+  - Hooks related to a specific feature must be placed inside `hooks/` within that feature’s folder.
+    - **Example:** `pages/profile/hooks/useGetProfileQuery.ts` for a Profile-specific query.
+    - Hooks shared across multiple features should remain in `common/hooks/`.
   - **Recommended depth:** While **there's no strict limit**, keeping **features within three levels**
     (`pages/profile/common/ProfileHero/`) improves maintainability.
 
@@ -153,36 +156,61 @@ app/
 │   ├── user.ts
 ├── pages/
 │   ├── guide/
+│   │   ├── __tests__/
+│   │   │   ├── __mocks__/
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── guideMock.ts
+│   │   │   ├── Guide.test.tsx
 │   │   ├── common/
+│   │   │   ├── __tests__/
+│   │   │   │   ├── GuideBadge.test.tsx
 │   │   │   ├── GuideHero/
+│   │   │   │   ├── __tests__/
+│   │   │   │   │   ├── GuideHero.test.tsx
 │   │   │   │   ├── GuideHero.tsx
 │   │   │   │   ├── GuideHeroLoading.tsx
 │   │   │   │   ├── index.ts
+│   │   │   ├── GuideBadge.tsx
 │   │   │   ├── GuideLoading.tsx
 │   │   │   ├── index.ts
+│   │   ├── hooks/
+│   │   │   ├── index.ts
+│   │   │   ├── useCreateGuideMutation.ts
+│   │   │   ├── useGetGuideQuery.ts
+│   │   │   ├── useUpdateGuideMutation.ts
 │   │   ├── Guide.tsx
 │   │   ├── index.ts               # For cleaner imports
 │   │   ├── guideConstants.ts (if needed)
 │   │   ├── guideUtils.ts (if needed)
 │   │   ├── types.ts (if needed)
-│   │   ├── useCreateGuideMutation.ts
-│   │   ├── useGetGuideQuery.ts
-│   │   ├── useUpdateGuideMutation.ts
 │   ├── profile/
+│   │   ├── __tests__/
+│   │   │   ├── __mocks__/
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── profileMock.ts
+│   │   │   ├── Profile.test.tsx
 │   │   ├── common/
-│   │   │   ├── ProfileLoading.tsx
+│   │   │   ├── __tests__/
+│   │   │   │   ├── ProfileHero.test.tsx
 │   │   │   ├── ProfileHero/
 │   │   │   │   ├── ProfileHero.tsx
 │   │   │   │   ├── ProfileHeroLoading.tsx
 │   │   │   │   ├── index.ts
+│   │   │   ├── ProfileLoading.tsx
+│   │   │   ├── ProfileSidebar/
+│   │   │   │   ├── ProfileSidebar.tsx
+│   │   │   │   ├── ProfileSidebarLoading.tsx
+│   │   │   │   ├── index.ts
 │   │   │   ├── index.ts
+│   │   ├── hooks/
+│   │   │   ├── index.ts
+│   │   │   ├── useCreateProfileMutation.ts
+│   │   │   ├── useGetProfileQuery.ts
 │   │   ├── Profile.tsx
 │   │   ├── index.ts               # For cleaner imports
 │   │   ├── profileConstants.ts (if needed)
 │   │   ├── profileUtils.ts (if needed)
 │   │   ├── types.ts (if needed)
-│   │   ├── useCreateProfileMutation.ts
-│   │   ├── useGetProfileQuery.ts
 ```
 
 ---
@@ -488,13 +516,13 @@ across the application.
 
 ### 🔹 General Rules for GraphQL Queries & Mutations
 
-- **Queries & Mutations should be placed within their respective feature folder**
+- **Queries & Mutations should be placed in `hooks/` inside their respective feature folder**
 
 ✅ Example:
 
 ```plaintext
-src/pages/profile/useGetProfileQuery.ts # Feature-specific query
-src/pages/profile/useCreateProfileMutation.ts # Feature-specific mutation
+src/pages/profile/hooks/useGetProfileQuery.ts # Feature-specific query
+src/pages/profile/hooks/useCreateProfileMutation.ts # Feature-specific mutation
 src/hooks/useGetPredefinedGuideTagsQuery.ts # Sitewide query (used across features)
 ```
 
@@ -528,8 +556,8 @@ To differentiate feature-specific GraphQL queries/mutations from global queries,
 ✅ Example:
 
 ```plaintext
-src/pages/profile/useGetProfileQuery.ts # Query used only in Profile
-src/pages/profile/useUpdateProfileMutation.ts # Mutation used only in Profile
+src/pages/profile/hooks/useGetProfileQuery.ts # Query used only in Profile
+src/pages/profile/hooks/useUpdateProfileMutation.ts # Mutation used only in Profile
 ```
 
 ✅ Query Example:
@@ -757,7 +785,6 @@ are explicitly listed.
 
 ```ts
 // src/config/feature-flags/featureFlags.ts
-
 type FeatureFlagNames = 'profileHeroV2' | 'profileV2'
 
 const featureFlags: Record<FeatureFlagNames, boolean> = {
@@ -779,7 +806,6 @@ The useFlag hook retrieves the current state of a feature flag, checking for loc
 
 ```ts
 // src/common/hooks/useFlag.ts
-
 import { useState, useEffect } from 'react'
 import type { FeatureFlagNames } from 'src/config/feature-flags/featureFlags'
 import { useLocalStorageFlags } from './useLocalStorageFlags'

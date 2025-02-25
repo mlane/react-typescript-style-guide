@@ -161,6 +161,7 @@ app/
 │   │   │   │   ├── index.ts
 │   │   │   │   ├── guideMock.ts
 │   │   │   ├── Guide.test.tsx
+│   │   │   ├── guideUtils.test.ts
 │   │   ├── common/
 │   │   │   ├── __tests__/
 │   │   │   │   ├── GuideBadge.test.tsx
@@ -189,6 +190,7 @@ app/
 │   │   │   │   ├── index.ts
 │   │   │   │   ├── profileMock.ts
 │   │   │   ├── Profile.test.tsx
+│   │   │   ├── profileUtils.test.ts
 │   │   ├── common/
 │   │   │   ├── __tests__/
 │   │   │   │   ├── ProfileHero.test.tsx

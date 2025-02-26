@@ -333,13 +333,43 @@ export const Profile = () => {
 
 ---
 
+### 🔹 Early Returns for Simplicity
+
+To improve readability and reduce indentation, always **return early** in conditionals rather than nesting them inside larger blocks.
+
+✅ **Example: Using Early Return for Cleaner Code**
+
+````tsx
+export const Profile = () => {
+  const { hasError, isLoading, profileData } = useGetProfileQuery()
+
+  if (isLoading) return <ProfileLoading />
+
+  if (hasError) return <ProfileError />
+
+  if (!profileData) return <ProfileEmpty />
+
+  return (
+    <section>
+      <ProfileHero />
+      <ProfileContent />
+    </section>
+  )
+}
+```
+
+**❌ Example: Nested Conditionals (Harder to Read)**
+
+
+---
+
 ### 🔹 JSX Formatting Rules
 
 - **One-line return when there is no logic.**
 
 ```tsx
 export const Profile = () => <section>...</section>
-```
+````
 
 - **Use multiple lines for JSX if it improves readability.**
 
@@ -1154,11 +1184,17 @@ as for **complex logic, workarounds, or TODOs**.
   - Code should **explain itself** rather than rely on comments.
   - If logic is unclear, **refactor instead of adding a comment**.
 
-- **Use JSDoc (`@link`) when the workaround requires a reference link, external documentation, or detailed
+- **Use JSDoc (`@see`) when the workaround requires a reference link, external documentation, or detailed
   explanation.**
 
-  - JSDoc ensures proper linking in documentation tools like TypeDoc.
-  - Example: `@link https://stackoverflow.com/q/xxxx Safari Quirk`
+  - JSDoc ensures proper referencing in documentation tools like TypeDoc.
+  - Example:
+    ```ts
+    /**
+     * Safari requires a slight delay for smooth scrolling.
+     * @see https://stackoverflow.com/q/xxxx
+     */
+    ```
 
 - **Use JSDoc (`@todo`) for marking future work.**
 
@@ -1234,12 +1270,12 @@ const scrollToTop = () => {
 }
 ```
 
-**✅ Example: Workaround for Safari Quirk with `@link`**
+**✅ Example: Workaround for Safari Quirk with `@see`**
 
 ```ts
 /**
  * Safari requires a slight delay for smooth scrolling.
- * More details: {@link https://stackoverflow.com/q/xxxx Safari Quirk}
+ * @see https://stackoverflow.com/q/xxxx
  */
 const scrollToTop = () => {
   window.scrollTo(0, 0)

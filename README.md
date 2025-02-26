@@ -127,6 +127,47 @@ structure keeps related files **encapsulated** while providing clear separation 
     - Feature directories (`pages/profile/index.ts`)
     - Common utilities and hooks (`common/hooks/index.ts`)
     - Nested components (`pages/profile/common/ProfileHero/index.ts`)
+  - `index.ts` files can improve import readability, but excessive use of barrel files can introduce problems such as unintended re-exports, circular dependencies, and inefficient bundling. This is especially relevant in SSR frameworks like Remix.
+
+---
+
+### 🔹 Barrel Files & Wildcard Imports
+
+Using **barrel files (`index.ts`)** can simplify imports and improve readability, but they should be used with caution. Overuse can lead to unintended re-exports, circular dependencies, and performance issues in certain frameworks like Remix.
+
+#### **When to Use Barrel Files**
+
+- ✅ When grouping related exports within a feature (`pages/profile/index.ts`).
+- ✅ When creating a clean API for shared utilities (`common/hooks/index.ts`).
+- ✅ When improving import readability by reducing deep paths.
+
+#### **When to Avoid Barrel Files**
+
+- ❌ If the file contains a **large number of exports**, making tree-shaking less effective.
+- ❌ If the file is **frequently updated**, causing unnecessary rebuilds.
+- ❌ When using **Remix and other SSR frameworks**, as barrel files can cause issues with bundling.
+- ❌ While `index.ts` files help simplify imports, overusing them as barrel files (re-exporting everything) can lead to unintended re-exports, circular dependencies, and inefficient bundling. This is particularly problematic in SSR frameworks like Remix, where improper tree-shaking can increase load times.
+
+#### **Best Practices**
+
+- Prefer **explicit imports** over `import * as X` to avoid unintended re-exports.
+- Keep barrel files **feature-scoped** rather than app-wide.
+- Be mindful of how **tree-shaking** works in the bundler to avoid unnecessary imports.
+
+**❌ Avoid wildcard (\*) imports as they increase bundle size, prevent effective tree-shaking, and can introduce unnecessary dependencies.**
+
+- Import unnecessary code, even if unused.
+- Make code harder to track, increasing debugging complexity.
+
+```ts
+import * as utils from ‘common/utils’
+```
+
+**✅ Prefer named imports for clarity and tree-shaking**
+
+```ts
+import { formatDate, getUserProfile } from ‘common/utils’
+```
 
 ---
 
@@ -256,7 +297,7 @@ Components should follow this order:
 
 ---
 
-### ✅ **Example: Standard Component Structure**
+### ✅ Example: Standard Component Structure
 
 ```tsx
 export const Profile = () => {
@@ -520,7 +561,7 @@ across the application.
 
 - **Queries & Mutations should be placed in `hooks/` inside their respective feature folder**
 
-✅ Example:
+**✅ Example:**
 
 ```plaintext
 src/pages/profile/hooks/useGetProfileQuery.ts # Feature-specific query
@@ -532,7 +573,7 @@ src/hooks/useGetPredefinedGuideTagsQuery.ts # Sitewide query (used across featur
   conventions.
 - **Operation name should be based on the data being fetched/updated, ensuring consistency with file & function names.**
 
-✅ Example:
+**✅ Example:**
 
 ```ts
 query GetProfileQueryInProfile($id: ID!) { ... }
@@ -555,14 +596,14 @@ To differentiate feature-specific GraphQL queries/mutations from global queries,
   from sitewide queries and avoid naming conflicts.
 - **File Placement:** Should be placed within the feature folder inside `pages/featureName/`.
 
-✅ Example:
+**✅ Example:**
 
 ```plaintext
 src/pages/profile/hooks/useGetProfileQuery.ts # Query used only in Profile
 src/pages/profile/hooks/useUpdateProfileMutation.ts # Mutation used only in Profile
 ```
 
-✅ Query Example:
+**✅ Query Example:**
 
 ```ts
 query GetProfileQueryInProfile($id: ID!) {
@@ -582,13 +623,13 @@ query GetProfileQueryInProfile($id: ID!) {
 - Queries that **are used across multiple features** should **not include the feature name** in their operation.
 - **File Placement:** These should be placed in `src/hooks/`.
 
-✅ Example:
+**✅ Example:**
 
 ```plaintext
 src/hooks/useGetPredefinedGuideTagsQuery.ts # Sitewide query
 ```
 
-✅ Query Example:
+**✅ Query Example:**
 
 ```ts
 query GetPredefinedGuideTags {
@@ -804,7 +845,7 @@ export { featureFlags }
 
 The useFlag hook retrieves the current state of a feature flag, checking for local storage overrides.
 
-✅ Example: Feature Flag Hook
+**✅ Example: Feature Flag Hook**
 
 ```ts
 // src/common/hooks/useFlag.ts
@@ -831,7 +872,7 @@ export const useFlag = (flagKey: FeatureFlagNames | string): boolean => {
 
 ### 🔹 Using Feature Flags in Components
 
-✅ Example: Conditionally Rendering Components
+**✅ Example: Conditionally Rendering Components**
 
 Feature flags allow conditional rendering of components within a section.
 
@@ -860,7 +901,7 @@ For **larger changes**, such as enabling an entirely new Profile redesign, we re
 
 Then, in `PageRoutes.tsx`, we dynamically choose which version of `Profile` to render based on the feature flag.
 
-✅ Example: Routing Feature Flag Usage
+**✅ Example: Routing Feature Flag Usage**
 
 ```tsx
 import { useFlag } from 'src/common/hooks/useFlag'
@@ -956,7 +997,7 @@ export const ProfileHero = ({ onClick, title }: ProfileHeroProps) => (
 )
 ```
 
-✅ Example: Extending an Interface
+**✅ Example: Extending an Interface**
 
 Use `interface` to extend props cleanly, while type uses `&` for merging multiple types.
 
@@ -990,7 +1031,7 @@ Use `Pick<>` when selecting only specific properties from a type, and `Omit<>` w
 
 These help create lightweight, flexible types for better reusability.
 
-✅ Example: Utility Type for Query Results
+**✅ Example: Utility Type for Query Results**
 
 ```ts
 type UseGetProfileQueryResult = {
@@ -1005,7 +1046,7 @@ type UseGetProfileQueryResult = {
 }
 ```
 
-✅ Example: Extracting Only Specific Keys from an Object
+**✅ Example: Extracting Only Specific Keys from an Object**
 
 ```ts
 type UserKeys = 'id' | 'email'
@@ -1013,7 +1054,7 @@ type UserKeys = 'id' | 'email'
 type UserInfo = Pick<User, UserKeys>
 ```
 
-✅ Example: Omitting Unnecessary Fields from an Object
+**✅ Example: Omitting Unnecessary Fields from an Object**
 
 ```ts
 type User = {
@@ -1025,7 +1066,7 @@ type User = {
 type PublicUser = Omit<User, 'password'>
 ```
 
-✅ Example: Combining Multiple Types
+**✅ Example: Combining Multiple Types**
 
 Use `&` to merge multiple types, providing more flexibility than `interface` extension.
 
@@ -1048,7 +1089,7 @@ type ProfileWithBase = Profile & Base
 
 - Use `Extract<>` to ensure type safety when selecting a specific type from a GraphQL query result.
 
-✅ Example: Extracting the Profile Type from a Query
+**✅ Example: Extracting the Profile Type from a Query**
 
 ```ts
 type UseGetProfileQueryResult = {
@@ -1067,7 +1108,7 @@ type UseGetProfileQueryResult = {
 
 ### 🔹 Avoid Unnecessary interface Usage
 
-❌ Bad Example: Using interface for Utility Types
+**❌ Bad Example: Using interface for Utility Types**
 
 ```ts
 interface UseGetProfileQueryResult {
@@ -1077,7 +1118,7 @@ interface UseGetProfileQueryResult {
 }
 ```
 
-✅ Good Example: Using type for Flexibility
+**✅ Good Example: Using type for Flexibility**
 
 ```ts
 type UseGetProfileQueryResult = {
@@ -1140,7 +1181,7 @@ as for **complex logic, workarounds, or TODOs**.
 
 We **only** use JSDoc (`/** @todo */`) for tracking future work.
 
-✅ **Example: JSDoc TODO for Future Enhancements**
+**✅ Example: JSDoc TODO for Future Enhancements**
 
 ```ts
 /** @todo Update this when the new API version is available */
@@ -1154,7 +1195,7 @@ const getUserPreferences = async (userId: string) => {
 }
 ```
 
-❌ Avoid Unnecessary TODO Comments
+**❌ Avoid Unnecessary TODO Comments**
 
 This format is not compatible with JSDoc linters.
 
@@ -1183,7 +1224,7 @@ JSDoc is more structured and aligns with tools that scan TODOs.
 
 Use inline `//` comments for technical workarounds, browser quirks, or unexpected API behavior.
 
-✅ Example: Workaround for Safari Quirk
+**✅ Example: Workaround for Safari Quirk**
 
 ```ts
 const scrollToTop = () => {
@@ -1193,7 +1234,7 @@ const scrollToTop = () => {
 }
 ```
 
-✅ Example: Workaround for Safari Quirk with `@link`
+**✅ Example: Workaround for Safari Quirk with `@link`**
 
 ```ts
 /**
@@ -1206,7 +1247,7 @@ const scrollToTop = () => {
 }
 ```
 
-❌ Avoid Redundant Comments
+**❌ Avoid Redundant Comments**
 
 ```ts
 const scrollToTop = () => {
@@ -1226,7 +1267,7 @@ const scrollToTop = () => {
 
 For `useEffect`, prefer extracting logic into functions instead of writing comments inline.
 
-✅ Example: Extracting Logic Into a Function
+**✅ Example: Extracting Logic Into a Function**
 
 ```ts
 useEffect(() => {
@@ -1244,7 +1285,7 @@ const syncUserPreferences = async () => {
 }
 ```
 
-❌ Example of an Overloaded useEffect with Comments
+**❌ Example of an Overloaded useEffect with Comments**
 
 ```ts
 useEffect(() => {

@@ -333,13 +333,22 @@ export const Profile = () => {
 
 ---
 
-### 🔹 Early Returns for Simplicity
+## 🔹 Return Formatting in Functional Components
 
-To improve readability and reduce indentation, always **return early** in conditionals rather than nesting them inside larger blocks.
+When returning JSX in functional components, maintain **consistent spacing** for clarity and readability.
 
-✅ **Example: Using Early Return for Cleaner Code**
+### ✅ General Rules:
 
-````tsx
+- **Use early returns for loading and error states** to reduce nesting.
+- **Single-line early returns should not have extra space before them.**
+- **Multiline return blocks should always be formatted for readability.**
+- **Return statements should not have an unnecessary empty line before them unless inside a conditional block.**
+
+---
+
+**✅ Example: Correct Formatting**
+
+```tsx
 export const Profile = () => {
   const { hasError, isLoading, profileData } = useGetProfileQuery()
 
@@ -347,7 +356,59 @@ export const Profile = () => {
 
   if (hasError) return <ProfileError />
 
-  if (!profileData) return <ProfileEmpty />
+  return (
+    <section>
+      <ProfileHero />
+      <ProfileContent />
+    </section>
+  )
+}
+```
+
+**❌ Example: Incorrect Formatting**
+
+```tsx
+export const Profile = () => {
+  const { hasError, isLoading, profileData } = useGetProfileQuery()
+
+  if (isLoading) {
+    return <ProfileLoading />
+  }
+
+  if (hasError) {
+    return <ProfileEmpty />
+  }
+
+  return (
+    <section>
+      <ProfileHero />
+      <ProfileContent />
+    </section>
+  )
+}
+```
+
+### Summary
+
+- **One-liner early returns should not have extra space.**
+- **Multiline return blocks should always be formatted for readability.**
+- **Use separate lines when return statements are inside a block.**
+
+---
+
+### 🔹 Early Returns for Simplicity
+
+To improve readability and reduce indentation, always **return early** in conditionals rather than nesting them inside larger blocks.
+
+✅ **Example: Using Early Return for Cleaner Code**
+
+```tsx
+export const Profile = () => {
+  const { hasError, isLoading, profileData } = useGetProfileQuery()
+
+  if (isLoading) return <ProfileLoading />
+
+  if (hasError) return <ProfileEmpty />
 
   return (
     <section>
@@ -360,7 +421,6 @@ export const Profile = () => {
 
 **❌ Example: Nested Conditionals (Harder to Read)**
 
-
 ---
 
 ### 🔹 JSX Formatting Rules
@@ -369,7 +429,7 @@ export const Profile = () => {
 
 ```tsx
 export const Profile = () => <section>...</section>
-````
+```
 
 - **Use multiple lines for JSX if it improves readability.**
 
@@ -571,6 +631,135 @@ const getUserDetails = user => {
   }
 }
 ```
+
+---
+
+### 🔹 Return Placement in Functions
+
+Return statements inside functions follow **consistent spacing rules** for readability.
+
+#### ✅ General Rules
+
+- **If an `if` statement is at the start of the function, do not add a blank line before it.**
+- **If an `if` statement appears in the middle of the function, add a blank line before it.**
+- **If an `if` statement contains multiple lines, place the `return` on its own line.**
+- **Single-line early returns should remain inline unless additional logic is present.**
+- **Do not add an extra blank line before the final return in a function.**
+
+---
+
+**✅ Example: Early return at the start of the function (no blank line)**
+
+```ts
+const getProfileRole = (profileData: ProfileData) => {
+  if (!profileData?.id) {
+    console.warn('Profile data is missing ID')
+    return 'Guest'
+  }
+
+  return profileData.role
+}
+```
+
+**✅ Example: Single-line early return (no extra space needed)**
+
+```ts
+const getProfileRole = (profileData: ProfileData) => {
+  if (!profileData?.id) return 'Guest'
+
+  return profileData.role
+}
+```
+
+**✅ Example: Returning directly in a function with no logic**
+
+```ts
+const getProfileName = (profileData: ProfileData) => `${profileData.firstName} ${profileData.lastName}`
+```
+
+**✅ Example: if appears in the middle of the function (needs a blank line before it)**
+
+```ts
+const getProfileName = (profileData: ProfileData) => {
+  const { firstName, lastName } = profileData ?? {}
+
+  if (!firstName || !lastName) return 'Guest'
+
+  return `${firstName} ${lastName}`
+}
+```
+
+**❌ Example: Missing space before if when it’s in the middle of the function**
+
+```ts
+const getProfileName = (profileData: ProfileData) => {
+  const { firstName, lastName } = profileData ?? {}
+  if (!firstName || !lastName) return 'Guest'
+
+  return `${firstName} ${lastName}`
+}
+```
+
+**❌ Example: Extra blank line before a return when it’s the only statement**
+
+```ts
+const getProfileName = (profileData: ProfileData) => {
+
+  return `${profileData.firstName} ${profileData.lastName}`
+}
+```
+
+**❌ Example: Extra blank line before an early return at the start of a function**
+
+```ts
+const getProfileName = (profileData: ProfileData) => {
+
+  if (!firstName || !lastName) return 'Guest'
+
+  return `${firstName} ${lastName}`
+}
+```
+
+**❌ Example: Single-line early return should stay inline**
+
+```ts
+const getProfileRole = (profileData: ProfileData) => {
+  if (!profileData?.id) { return 'Guest' }
+}
+```
+
+```ts
+const getProfileRole = (profileData: ProfileData) => {
+  if (!profileData?.id) {
+    return 'Guest'
+  }
+}
+```
+
+---
+
+### 🔹 Summary of Return Placement Rules
+
+| Case                                         | Blank Line Before Return? |
+| -------------------------------------------- | ------------------------- |
+| Single return as the only function statement | ❌ No                     |
+| Early return at the start of a function      | ❌ No                     |
+| `if` appears in the middle of the function   | ✅ Yes                    |
+| Final return in a function                   | ❌ No                     |
+| Return inside a multi-line `if` block        | ✅ Yes                    |
+
+---
+
+#### 🔥 Final Thoughts
+
+Return placement follows the same logic as variables:
+
+- **If an `if` appears in the middle of a function, add a blank line before it.**
+- **If an `if` is at the start of a function, no blank line is needed.**
+- **A multi-line `if` block always places the return on its own line.**
+- **A single-line early return remains inline unless there’s additional logic.**
+
+By keeping returns structured and predictable, code stays **clean, readable, and consistent** across the project. 🚀
 
 ---
 

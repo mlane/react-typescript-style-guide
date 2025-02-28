@@ -421,6 +421,27 @@ export const Profile = () => {
 
 **❌ Example: Nested Conditionals (Harder to Read)**
 
+```tsx
+export const Profile = () => {
+  const { hasError, isLoading, profileData } = useGetProfileQuery()
+
+  if (isLoading) {
+    return <ProfileLoading />
+  } else {
+    if (hasError) {
+      return <ProfileEmpty />
+    } else {
+      return (
+        <section>
+          <ProfileHero />
+          <ProfileContent />
+        </section>
+      )
+    }
+  }
+}
+```
+
 ---
 
 ### 🔹 JSX Formatting Rules

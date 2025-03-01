@@ -297,7 +297,7 @@ Components should follow this order:
 
 ---
 
-### ✅ Example: Standard Component Structure
+**✅ Example: Standard Component Structure**
 
 ```tsx
 export const Profile = () => {
@@ -1064,7 +1064,7 @@ src/
 Feature flags are **centrally defined** in `src/config/feature-flags/featureFlags.ts`. This ensures all available flags
 are explicitly listed.
 
-#### ✅ **Example: Defining Feature Flags**
+**✅ Example: Defining Feature Flags**
 
 ```ts
 // src/config/feature-flags/featureFlags.ts

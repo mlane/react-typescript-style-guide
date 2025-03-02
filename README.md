@@ -388,7 +388,7 @@ export const Profile = () => {
 }
 ```
 
-### Summary
+### ✅ Summary
 
 - **One-liner early returns should not have extra space.**
 - **Multiline return blocks should always be formatted for readability.**
@@ -1563,7 +1563,7 @@ Before writing a comment, ask:
 
 ---
 
-✅ Summary
+### ✅ Summary
 
 - **Avoid unnecessary comments—favor meaningful variable & function names.**
 - **Use JSDoc `@todo` for tracking future work.**

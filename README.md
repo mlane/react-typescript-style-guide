@@ -333,6 +333,70 @@ export const Profile = () => {
 
 ---
 
+### 🔹 Return Statement Spacing
+
+- **Always add a blank line before `return`** to visually separate logic from JSX.
+- This improves **readability and scanning** by making the function’s return statement stand out.
+- It helps maintain consistency across the codebase.
+
+**✅ Example:**
+
+```tsx
+export const Profile = () => {
+  const { hasError, isLoading, profileData } = useGetProfileQuery()
+
+  if (isLoading || isEmpty(profileData)) return <ProfileLoading />
+
+  if (hasError) return <ProfileEmpty />
+
+  return (
+    <section>
+      <ProfileHero />
+      <div>
+        <ProfileSidebar />
+        <ProfileContent />
+      </div>
+    </section>
+  )
+}
+```
+
+**❌ Avoid cramming `return` right after logic without spacing.**
+
+```tsx
+export const Profile = () => {
+  const { hasError, isLoading, profileData } = useGetProfileQuery()
+  if (isLoading || isEmpty(profileData)) return <ProfileLoading />
+  if (hasError) return <ProfileEmpty />
+  return (
+    <section>
+      <ProfileHero />
+      <div>
+        <ProfileSidebar />
+        <ProfileContent />
+      </div>
+    </section>
+  )
+}
+```
+
+```tsx
+export const Profile = () => {
+  const { hasError, isLoading, profileData } = useGetProfileQuery()
+  return (
+    <section>
+      <ProfileHero />
+      <div>
+        <ProfileSidebar />
+        <ProfileContent />
+      </div>
+    </section>
+  )
+}
+```
+
+---
+
 ## 🔹 Return Formatting in Functional Components
 
 When returning JSX in functional components, maintain **consistent spacing** for clarity and readability.

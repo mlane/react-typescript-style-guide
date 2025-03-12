@@ -36,7 +36,7 @@ scale.
   should be able to predict where things are located and how they are structured.
 
 - **Predictability**  
-  Every file and component follows the **same structure**, reducing ambiguity. Naming conventions, folder structures,
+  Every file and component follows a **consistent structure**, minimizing ambiguity. Naming conventions, folder structures,
   and function placements should remain consistent across the entire codebase.
 
 - **Clarity Over Flexibility**  
@@ -99,7 +99,7 @@ structure keeps related files **encapsulated** while providing clear separation 
   - If a constant or utility **is used in more than one feature**, move it here.
   - **Example:** `constants/guideUtils.ts` contains `getGuideDetailsUrl` since it is used in multiple places (e.g.,
     dashboard & profiles).
-  - **Feature-specific constants and utils** should remain inside the **feature folder** (e.g.,
+  - **Feature-specific constants and utilities** should remain inside the **respective feature folder** (e.g.,
     `pages/profile/profileConstants.ts`).
 
 - **Assets Handling**
@@ -158,6 +158,7 @@ Using **barrel files (`index.ts`)** can simplify imports and improve readability
 
 - Import unnecessary code, even if unused.
 - Make code harder to track, increasing debugging complexity.
+- Wildcard imports (`import *`) force the bundler to include unused code, increasing bundle size and reducing tree-shaking efficiency.
 
 ```ts
 import * as utils from ‘common/utils’
@@ -1241,8 +1242,7 @@ export const PageRoutes = () => {
 - **New feature flags must be added to featureFlags.ts**
   - This ensures **visibility** and prevents unexpected feature toggles.
 - **Use feature flags only for meaningful toggles**
-  - Avoid flagging trivial UI changes.
-  - Flags should be used for **significant features, redesigns, or experiments**.
+  - Feature flags should be reserved for **substantial feature rollouts, experiments, or redesigns**—not minor UI tweaks.
 - **Local storage overrides take precedence**
   - Developers can **manually toggle flags via local storage**, making testing easier.
 

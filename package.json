@@ -4,10 +4,10 @@
   "description": "An opinionated React + TypeScript style guide for writing scalable, maintainable, and consistent code.",
   "author": "Marcus Lane",
   "license": "MIT",
-  "homepage": "https://your-style-guide.vercel.app",
+  "homepage": "https://react-typescript-style-guide.vercel.app/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/react-typescript-style-guide.git"
+    "url": "https://github.com/mlane/react-typescript-style-guide.git"
   },
   "keywords": [
     "react",

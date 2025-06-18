@@ -977,7 +977,7 @@ query GetPredefinedGuideTags {
 - **Feature mutations follow the same naming rule as feature queries, including `In{featureName}` unless they are
   sitewide.**
 - **We avoid “QueryQuery” in auto-generated types by keeping the operation name clean.**
-- **We use PascalCase for hook return types, following `Use{QueryName}Result` (e.g., `UseGetProfileQueryResult`).**
+- **We use PascalCase for hook return types, following `Use{QueryName}Return` (e.g., `UseGetProfileQueryReturn`).**
 
 ---
 
@@ -986,7 +986,7 @@ query GetPredefinedGuideTags {
 ```ts
 import { gql, useQuery } from '@apollo/client'
 
-type UseGetProfileQueryResult = {
+type UseGetProfileQueryReturn = {
   hasError: ApolloError
   isLoading: boolean
   profileData: Extract<
@@ -1010,7 +1010,7 @@ const profileQuery = gql(`
   }
 `)
 
-export const useGetProfileQuery = (id: string): UseGetProfileQueryResult => {
+export const useGetProfileQuery = (id: string): UseGetProfileQueryReturn => {
   const {
     data,
     error: hasError,
@@ -1338,7 +1338,7 @@ These help create lightweight, flexible types for better reusability.
 **✅ Example: Utility Type for Query Results**
 
 ```ts
-type UseGetProfileQueryResult = {
+type UseGetProfileQueryReturn = {
   hasError: ApolloError
   isLoading: boolean
   profileData: Extract<
@@ -1396,7 +1396,7 @@ type ProfileWithBase = Profile & Base
 **✅ Example: Extracting the Profile Type from a Query**
 
 ```ts
-type UseGetProfileQueryResult = {
+type UseGetProfileQueryReturn = {
   hasError: ApolloError
   isLoading: boolean
   profileData: Extract<
@@ -1415,7 +1415,7 @@ type UseGetProfileQueryResult = {
 **❌ Bad Example: Using interface for Utility Types**
 
 ```ts
-interface UseGetProfileQueryResult {
+interface UseGetProfileQueryReturn {
   hasError: ApolloError
   isLoading: boolean
   profileData: Profile
@@ -1425,7 +1425,7 @@ interface UseGetProfileQueryResult {
 **✅ Good Example: Using type for Flexibility**
 
 ```ts
-type UseGetProfileQueryResult = {
+type UseGetProfileQueryReturn = {
   hasError: ApolloError
   isLoading: boolean
   profileData: Profile
